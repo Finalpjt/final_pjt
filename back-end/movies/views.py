@@ -21,16 +21,14 @@ from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie,
 # @permission_classes([IsAuthenticated])
 def movie_list(request):
     if request.method == 'GET':
-        # Movies = AllMovie.objects.all()
         movies = get_list_or_404(AllMovie)
         serializer = AllMovieListSerializer(movies, many=True)
-        print(serializer.data)
-        # for iidx in range(len(serializer.data)):
-        #     genre_list = []
-        #     for genre in dict(serializer.data[iidx])['genre_ids']:
-        #         genre_list.append(dict(genre)['genre_ids'])
-        #     for idx, i in enumerate(genre_list):
-        #         serializer.data[iidx]['genre_ids'][idx] = i
+        for iidx in range(len(serializer.data)):
+            genre_list = []
+            for genre in dict(serializer.data[iidx])['genres']:
+                genre_list.append(dict(genre)['genre_ids'])
+            for idx, i in enumerate(genre_list):
+                serializer.data[iidx]['genres'][idx] = i
         return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -46,11 +44,17 @@ def today_movie_list(request):
         movies = get_list_or_404(TodayMovie)
         serializer = TodayMovieListSerializer(movies, many=True)
         for iidx in range(len(serializer.data)):
-            genre_list = []
+            genre_list, video_list = [], []
             for genre in dict(serializer.data[iidx])['genre_ids']:
                 genre_list.append(dict(genre)['genre_ids'])
             for idx, i in enumerate(genre_list):
                 serializer.data[iidx]['genre_ids'][idx] = i
+            
+            for video in dict(serializer.data[iidx])['videos']:
+                video_list.append(dict(video))
+            for v_idx, v in enumerate(video_list):
+                serializer.data[iidx]['videos'][v_idx] = v['video']
+                
         return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -92,6 +96,12 @@ def today_movie_detail(request, movie_id):
             genre_list.append(dict(genre)['genre_ids'])
         for idx, i in enumerate(genre_list):
             serializer.data['genre_ids'][idx] = i
+        
+        video_list = []
+        for video in serializer.data['videos']:
+            video_list.append(dict(video))
+        for v_idx, v in enumerate(video_list):
+            serializer.data['videos'][v_idx] = v['video']
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
