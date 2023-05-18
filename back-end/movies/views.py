@@ -11,23 +11,50 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import AllMovieListSerializer, AllVideoListSerializer, CommentSerializer
-from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, AllGenreSerializer
-from .models import AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment
+from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
+from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
+from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment
 
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def movie_list(request):
     if request.method == 'GET':
-        # Movies = Movie.objects.all()
+        # Movies = AllMovie.objects.all()
         movies = get_list_or_404(AllMovie)
         serializer = AllMovieListSerializer(movies, many=True)
+        print(serializer.data)
+        # for iidx in range(len(serializer.data)):
+        #     genre_list = []
+        #     for genre in dict(serializer.data[iidx])['genre_ids']:
+        #         genre_list.append(dict(genre)['genre_ids'])
+        #     for idx, i in enumerate(genre_list):
+        #         serializer.data[iidx]['genre_ids'][idx] = i
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = AllMovieSerializer(data=request.data)
+        serializer = AllMovieListSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            # serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET', 'POST'])
+def today_movie_list(request):
+    if request.method == 'GET':
+        movies = get_list_or_404(TodayMovie)
+        serializer = TodayMovieListSerializer(movies, many=True)
+        for iidx in range(len(serializer.data)):
+            genre_list = []
+            for genre in dict(serializer.data[iidx])['genre_ids']:
+                genre_list.append(dict(genre)['genre_ids'])
+            for idx, i in enumerate(genre_list):
+                serializer.data[iidx]['genre_ids'][idx] = i
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = TodayMovieListSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             # serializer.save(user=request.user)
@@ -35,12 +62,12 @@ def movie_list(request):
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
-def movie_detail(request, movie_pk):
-    # movie = Movie.objects.get(pk=Movie_pk)
-    movie = get_object_or_404(AllMovie, pk=movie_pk)
+def movie_detail(request, movie_id):
+    # movie = Movie.objects.get(pk=movie_id)
+    movie = get_object_or_404(AllMovie, pk=movie_id)
 
     if request.method == 'GET':
-        serializer = AllMovieSerializer(movie)
+        serializer = AllMovieListSerializer(movie)
         print(serializer.data)
         return Response(serializer.data)
     
@@ -49,7 +76,30 @@ def movie_detail(request, movie_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'PUT':
-        serializer = AllMovieSerializer(movie, data=request.data)
+        serializer = AllMovieListSerializer(movie, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+@api_view(['GET', 'DELETE', 'PUT'])
+def today_movie_detail(request, movie_id):
+    movie = get_object_or_404(TodayMovie, pk=movie_id)
+
+    if request.method == 'GET':
+        serializer = TodayMovieListSerializer(movie)
+        genre_list = []
+        for genre in serializer.data['genre_ids']:
+            genre_list.append(dict(genre)['genre_ids'])
+        for idx, i in enumerate(genre_list):
+            serializer.data['genre_ids'][idx] = i
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        movie.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    elif request.method == 'PUT':
+        serializer = TodayMovieListSerializer(movie, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
