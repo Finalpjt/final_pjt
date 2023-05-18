@@ -83,7 +83,7 @@ export default {
       }
 
       this.$store.dispatch('login', payload)
-      this.$router.push('/')
+      this.$router.push('/signup')
     }
   }
 }
