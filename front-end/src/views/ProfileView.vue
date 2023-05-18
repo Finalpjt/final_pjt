@@ -1,42 +1,40 @@
 <template>
   <div>
-    <h1>Detail</h1>
-    <p>글 번호 : {{ article?.id }}</p>
-    <p>제목 : {{ article?.title }}</p>
-    <p>내용 : {{ article?.content }}</p>
-    <p>작성시간 : {{ article?.created_at }}</p>
-    <p>수정시간 : {{ article?.updated_at }}</p>
+    <h1>Profile</h1>
+    {{username}}
+    <!-- <p>User Name : {{ user?.username }}</p>
+    <p>User Email : {{ user?.email }}</p> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-const API_URL = 'http://127.0.0.1:8000'
+// import axios from 'axios'
+// const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'ProfileView',
   data() {
     return {
-      article: null
+      username: this.username
     }
-  },
-  created() {
-    this.getArticleDetail()
-  },
-  methods: {
-    getArticleDetail() {
-      axios({
-        method: 'get',
-        url: `${ this.$route.params.id }/`,
-      })
-      .then((res) => {
-        console.log(res)
-        this.article = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
+//   },
+//   created() {
+//     this.getUser()
+//   },
+//   methods: {
+//     getUser() {
+//       axios({
+//         method: 'get',
+//         url: `${API_URL}/api/v1/accounts/${ this.$route.params.id }/`,
+//       })
+//       .then((res) => {
+//         console.log(res)
+//         this.user = res.data
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//       })
+//     }
   }
 }
 </script>

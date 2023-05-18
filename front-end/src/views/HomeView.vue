@@ -1,9 +1,21 @@
 <template>
   <div id="home">
-    
-    <ul class="">
+    <h1>Home Page</h1>
+    <h2>Login</h2>
+    <p v-if="this.isLogin">로그인 중 입니다.</p>
+    <form @submit.prevent="login" v-if="!this.isLogin">
+      <label for="username">username : </label>
+      <input type="text" id="username" v-model="username"><br>
+
+      <label for="password"> password : </label>
+      <input type="password" id="password" v-model="password"><br>
+
+      <input type="submit" value="login">
+    </form>
+
+<!--   <ul class=""> -->
       <!-- 비 로그인 시  -->
-      <div class="navbar-nav ml-auto" v-if="!currentUser">
+      <!-- <div class="navbar-nav ml-auto" v-if="!currentUser">
         <li class="nav-item">
           <router-link to="/signup">
             <font-awesome-icon icon="user-plus" /> Sign Up
@@ -21,7 +33,7 @@
           </form>
         </li>
       </div>
-      <!-- 로그인 시 -->
+      로그인 시
       <div class="navbar-nav ml-auto" v-if="currentUser">
         <li class="nav-item">
           <router-link to="/profile">
@@ -35,22 +47,17 @@
           </a>
         </li>
       </div>
-    </ul>
-    <MovieList/>
-    <div class="container">
-      <router-view />
-    </div>
+    </ul> -->
+
   </div>
 </template>
 
 <script>
+
 // @ is an alias to /src
 
 export default {
   name: 'HomeView',
-  components: {
-    MovieList,
-  },
   data() {
     return {
       username: null,
@@ -63,11 +70,11 @@ export default {
     }
   },
   methods: {
-    logOut () {
-      this.$store.dispatch('auth/logout')
+    logout () {
+      this.$store.dispatch('/logout')
       this.$router.push('/')
     },
-    logIn() {
+    login() {
       const username = this.username
       const password = this.password
 
@@ -76,7 +83,7 @@ export default {
       }
 
       this.$store.dispatch('login', payload)
-
+      this.$router.push('/')
     }
   }
 }

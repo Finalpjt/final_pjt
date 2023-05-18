@@ -1,6 +1,23 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+    hello
+    <router-link to="/">
+    Home
+    </router-link>
+
+    <router-link to="/signup">
+    Sign Up
+    </router-link>
+
+    <router-link to="/profile">
+    profile
+    </router-link>
+
+    <router-link to="/main">
+    main page
+    </router-link>
+
+    <!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-brand">vue-login</div>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -26,7 +43,7 @@
         <li class="nav-item">
           <router-link to="/profile">
             <font-awesome-icon icon="user" />
-            {{currentUser.username}}
+            {{username}}
           </router-link>
         </li>
         <li class="nav-item">
@@ -35,7 +52,7 @@
           </a>
         </li>
       </div>
-    </nav>
+    </nav> -->
     <div class="container">
       <router-view />
     </div>
@@ -46,12 +63,15 @@
 export default {
   computed: {
     currentUser () {
-      return this.$store.state.auth.user
+      return this.$store.state.auth.user //현재 user 정보
+    },
+    isLogin() {
+      return this.$store.getters.isLogin // 로그인 여부
     }
   },
   methods: {
-    logOut () {
-      this.$store.dispatch('auth/logout')
+    logout () {
+      this.$store.dispatch('logout')
       this.$router.push('/')
     }
   }
