@@ -7,7 +7,7 @@ from django.conf import settings
 class AllMovie(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     adult = models.BooleanField()
-    backdrop_path = models.TextField(null=True)
+    backdrop_path = models.URLField(null=True)
     # genre_ids = models.ForeignKey(AllGenre, on_delete=models.CASCADE)
     # genre_ids = models.ManyToManyField(AllGenre)
     movie_id = models.IntegerField(primary_key=True)
