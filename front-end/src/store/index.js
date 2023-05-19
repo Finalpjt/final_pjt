@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import axios from 'axios'
-// import createPersistedState from 'vuex-persistedstate'
-import router from '../router'
+import createPersistedState from 'vuex-persistedstate'
+// import router from '../router'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -11,13 +11,14 @@ Vue.use(Vuex)
 
 
 export default new Vuex.Store({
-  // plugins: [
-  //   createPersistedState(),
-  // ],
+  plugins: [
+    createPersistedState()
+  ],
   state: {
     movies: [
     ],
     token: null,
+    userdata: null
   },
   getters: {
     isLogin(state) {
@@ -31,7 +32,13 @@ export default new Vuex.Store({
     // signup & login -> 완료하면 토큰 발급
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      location.reload(true)
+    },
+    LOG_OUT(state) {
+      state.token = null
+      // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      location.reload(true)
     }
   },
   actions: {
@@ -51,11 +58,12 @@ export default new Vuex.Store({
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/`,
+        url: `${API_URL}/api/v1/movies/today/`,
       })
         .then((res) => {
         // console.log(res, context)
           context.commit('GET_MOVIES', res.data)
+          // console.log(res.data)
         })
         .catch((err) => {
         console.log(err)
@@ -75,6 +83,28 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
+          console.log(res)
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+        console.log(err)
+      })
+    },
+    profileChange(context, payload) {
+      const new_password1 = payload.new_password1
+      const new_password2 = payload.new_password2
+      axios({
+        method:'post',
+        url: `${API_URL}/accounts/password/change/`,
+        data: {
+          new_password1, new_password2
+        },
+        headers: {
+          Authorization: `Token ${this.state.token}`
+        }
+        })
+        .then((res) => {
+          console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => {
@@ -84,18 +114,20 @@ export default new Vuex.Store({
     login(context, payload) {
       const username = payload.username
       const password = payload.password
-
       axios({
         method: 'post',
         url: `${API_URL}/accounts/login/`,
         data: {
           username, password
-        }
+        } 
       })
         .then((res) => {
         context.commit('SAVE_TOKEN', res.data.key)
         })
       .catch((err) => console.log(err))
+    },
+    logout(context){
+      context.commit('LOG_OUT')
     }
   },
   modules: {

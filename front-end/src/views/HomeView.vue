@@ -65,11 +65,13 @@ export default {
     }
   },
   computed: {
+    isLogin() {
+      return this.$store.getters.isLogin // 로그인 여부
+    }
   },
   methods: {
     logout () {
       this.$store.dispatch('/logout')
-      this.$router.push('/')
     },
     login() {
       const username = this.username
@@ -80,7 +82,6 @@ export default {
       }
 
       this.$store.dispatch('login', payload)
-      this.$router.push('/signup')
     }
   }
 }

@@ -1,40 +1,50 @@
 <template>
   <div>
     <h1>Profile</h1>
-    {{username}}
-    <!-- <p>User Name : {{ user?.username }}</p>
-    <p>User Email : {{ user?.email }}</p> -->
+    사용자명 : {{ username }}
+    <br>
+    사용자 이메일 : {{ email }}
+    <br>
+    <router-link to="/profilechange">changepassword</router-link>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
-// const API_URL = 'http://127.0.0.1:8000'
+import axios from 'axios'
+const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'ProfileView',
   data() {
     return {
-      username: this.username
+      user: null,
+      username: null,
+      email: null
     }
-//   },
-//   created() {
-//     this.getUser()
-//   },
-//   methods: {
-//     getUser() {
-//       axios({
-//         method: 'get',
-//         url: `${API_URL}/api/v1/accounts/${ this.$route.params.id }/`,
-//       })
-//       .then((res) => {
-//         console.log(res)
-//         this.user = res.data
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       })
-//     }
+  },
+  created() {
+    this.getUser()
+  },
+  methods: {
+    getUser() {
+      const token = this.$store.state.token
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/user/`,
+        headers: {
+        Authorization: `Token ${token}`
+        }
+      })
+      .then((res) => {
+        console.log(res.data)
+        this.user = res.data
+        this.username = res.data.username
+        this.email = res.data.email
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

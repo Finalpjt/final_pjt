@@ -43,7 +43,7 @@ export default {
       }
 
       this.$store.dispatch('signUp', payload)
-      this.$router.push('/')
+      // this.$router.push('/home')
 
     }
   }

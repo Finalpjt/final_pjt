@@ -1,69 +1,43 @@
 <template>
   <div>
-    <h1>Profile Change</h1>
-		<form @submit.prevent="profileChange">
-      <label for="username">username : </label>
-      <input type="text" id="username" v-model="username"><br>
+    <h1>Profile</h1>
+    <form @submit.prevent="profileChange">
+      <label for="new_password1"> 비밀번호 : </label>
+      <input type="new_password1" id="new_password1" v-model="new_password1">
 
-      <label for="password1"> password : </label>
-      <input type="password" id="password1" v-model="password1"><br>
+      <label for="new_password2"> 비밀번호 확인 : </label>
+      <input type="new_password2" id="new_password2" v-model="new_password2">
 
-      <label for="password2"> password confirmation : </label>
-      <input type="password" id="password2" v-model="password2"><br>
-      
-      <label for="email">email : </label>
-			<input type="text" id="email" v-model="email"><br>
-
-			<input type="submit" value="profileChange">
-
-
-		</form>
+      <input type="submit" value="profileChange">
+    </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-const API_URL = 'http://127.0.0.1:8000'
+// import axios from 'axios'
+// const API_URL = 'http://127.0.0.1:8000'
 
 export default {
-  name: 'ProfileView',
+  name: 'ProfileChangeView',
   data() {
     return {
-      username: this.name,
-      password1: this.password1,
-      password2: this.password2,
-			email: this.email
+      new_password1: null,
+      new_password2: null,
     }
   },
-  created() {
-    this.getUser()
-  },
   methods: {
-    getUser() {
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v1/accounts/${ this.$route.params.id }/`,
-      })
-      .then((res) => {
-        // console.log(res)
-        this.user = res.data
-      })
-      .catch((err) => {
-        // console.log(err)
-      })
-    },
-		profileChange() {
-			const username = this.username
-			const password1 = this.password1
-			const password2 = this.password2
-			const email = this.email
 
-			const payload = {
-				username, password1, password2, email
-			}
+    profileChange() {
+      // console.log('signup')
+      const new_password1 = this.new_password1
+      const new_password2 = this.new_password2
+      const payload = {
+        new_password1, new_password2
+      }
+      this.$store.dispatch('profileChange', payload)
+      // this.$router.push('/home')
 
-			this.$store.dispatch('change', payload)
-		}
+    }
   }
 }
 </script>
