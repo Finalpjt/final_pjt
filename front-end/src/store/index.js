@@ -31,7 +31,7 @@ export default new Vuex.Store({
     // signup & login -> 완료하면 토큰 발급
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
     }
   },
   actions: {
