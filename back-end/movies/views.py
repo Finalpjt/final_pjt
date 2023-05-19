@@ -21,6 +21,16 @@ from datetime import date, datetime, timedelta
 import json
 
 
+def delete_yesterday():
+    movie_list = TodayMovie.objects.all()
+    for movie in movie_list:
+        movie.delete()
+    video_list = TodayRelatedVideo.objects.all()
+    for video in video_list:
+        video.delete()
+    genre_list = TodayGenre.objects.all()
+    for genre in genre_list:
+        genre.delete()
 
 def today_json_to_db():
     ymd = date.today() - timedelta(1)
@@ -100,20 +110,44 @@ def movie_list(request):
 @api_view(['GET', 'POST'])
 def today_movie_list(request):
     # get_today_movie_list()
+    TodayMovieCreated.objects.today = datetime.now()
+    ymd = date.today()
+    today_ymd = datetime.strftime(ymd, '%Y-%m-%d')
     days, is_created = TodayMovieCreated.objects.get_or_create()
-    today_ymd = datetime.strftime(days.today, '%Y-%m-%d')
-    print(today_ymd)
-    print(is_created)
-    print(days.today)
-    print(str(days.today))
-    
-    if today_ymd in str(days.today) and is_created:
+    if is_created:
+        delete_time = TodayMovieCreated.objects.all()
+        for x in delete_time:
+            x.delete()
+        days, is_created = TodayMovieCreated.objects.get_or_create()
+        # new_time = TodayMovieCreated()
+        # new_time.today = today_ymd
+        days.today = today_ymd
         get_today_movie_list()
         today_json_to_db()
-        
+        print(ymd)
+        print(today_ymd)
+        print(is_created)
+        print(days.today)
+    else:
+        print(str(days.today)[:10])
+        # delete_time = TodayMovieCreated.objects.all()
+        # for x in delete_time:
+        #     x.delete()
+        # days, is_created = TodayMovieCreated.objects.get_or_create()
+        if today_ymd != str(days.today)[:10]:
+            delete_yesterday()
+            delete_time = TodayMovieCreated.objects.all()
+            for x in delete_time:
+                x.delete()
+            days, is_created = TodayMovieCreated.objects.get_or_create()
+            # new_time = TodayMovieCreated()
+            # new_time.today = today_ymd
+            get_today_movie_list()
+            today_json_to_db()
+            
     if request.method == 'GET':
         movies = get_list_or_404(TodayMovie)
-        print(movies)
+        # print(movies)
         serializer = TodayMovieListSerializer(movies, many=True)
         for iidx in range(len(serializer.data)):
             genre_list, video_list = [], []

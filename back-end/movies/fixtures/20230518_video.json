@@ -38,6 +38,20 @@
         "model": "movies.TodayRelatedVideo",
         "fields": {
             "movie_id": 447365,
+            "video": "https://www.youtube.com/watch?v=tfrGciwxyXQ"
+        }
+    },
+    {
+        "model": "movies.TodayRelatedVideo",
+        "fields": {
+            "movie_id": 447365,
+            "video": "https://www.youtube.com/watch?v=7QGWXXm-Ph8"
+        }
+    },
+    {
+        "model": "movies.TodayRelatedVideo",
+        "fields": {
+            "movie_id": 447365,
             "video": "https://www.youtube.com/watch?v=c8cZzltEH2Q"
         }
     },
@@ -53,20 +67,6 @@
         "fields": {
             "movie_id": 447365,
             "video": "https://www.youtube.com/watch?v=UWJftHnYf7Q"
-        }
-    },
-    {
-        "model": "movies.TodayRelatedVideo",
-        "fields": {
-            "movie_id": 447365,
-            "video": "https://www.youtube.com/watch?v=uJOu3WBnrHs"
-        }
-    },
-    {
-        "model": "movies.TodayRelatedVideo",
-        "fields": {
-            "movie_id": 447365,
-            "video": "https://www.youtube.com/watch?v=QWdljFroAz8"
         }
     },
     {

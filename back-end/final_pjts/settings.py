@@ -203,6 +203,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+DATE_INPUT_FORMATS = ['%Y-%m-%d']
+
 # CRONJOBS = [
 #     ('0,15,30,45 * * * *', 'movies.cron.schedule_job'),
 # ]
