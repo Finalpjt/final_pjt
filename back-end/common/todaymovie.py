@@ -1,15 +1,16 @@
-import requests
-from bs4 import BeautifulSoup as bs
-import json
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from PIL import Image
-import urllib.request
-from io import BytesIO
-from datetime import date, datetime, timedelta
-
 def get_today_movie_list():
+    
+    import requests
+    from bs4 import BeautifulSoup as bs
+    import json
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from PIL import Image
+    import urllib.request
+    from io import BytesIO
+    from datetime import date, datetime, timedelta
+    
     # 오늘 날짜 자동 계산
     ymd = date.today() - timedelta(1)
     ymd = datetime.strftime(ymd, '%Y%m%d')
@@ -127,8 +128,9 @@ def get_today_movie_list():
     df_today_genres.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\{}_genre.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     
  
-    with open('./movies/fixtures/{}_movie.json'.format(today)) as f:
+    with open('./movies/fixtures/{}_movie.json'.format(today), 'r', encoding='UTF-8') as f:
         today_movie_js = json.loads(f.read()) ## json 라이브러리 이용
+        # today_movie_js = json.dumps(today_movie_js, ensure_ascii = False)
 
     with open('./movies/fixtures/{}_video.json'.format(today)) as f:
         today_video_js = json.loads(f.read()) ## json 라이브러리 이용
@@ -136,16 +138,16 @@ def get_today_movie_list():
     with open('./movies/fixtures/{}_genre.json'.format(today)) as f:
         today_genre_js = json.loads(f.read()) ## json 라이브러리 이용
 
-    today_movie_list = list(today_movie_js)
+    today_movie_list = today_movie_js
     today_video_list = list(today_video_js)
     today_genre_list = list(today_genre_js)
 
     for movie in today_movie_list:
-        print(movie)
         if movie['backdrop_path']:
             movie['backdrop_path'] = 'https://image.tmdb.org/t/p/original' + movie['backdrop_path']
     
     new_today_movie_list, new_today_video_list, new_today_genre_list = [], [], []
+    
     for movie in today_movie_list:
         # Movie 모델 필드명에 맞추어 데이터를 저장함.
         data = {
@@ -188,14 +190,13 @@ def get_today_movie_list():
             },
         }
         new_today_genre_list.append(data)
-
-    with open('./movies/fixtures/{}_movie.json'.format(today),'w') as f:
-        json.dump(new_today_movie_list,f, ensure_ascii=False, indent=4)
-    with open('./movies/fixtures/{}_video.json'.format(today),'w') as f:
-        json.dump(new_today_video_list,f, ensure_ascii=False, indent=4)
-    with open('./movies/fixtures/{}_genre.json'.format(today),'w') as f:
-        json.dump(new_today_genre_list,f, ensure_ascii=False, indent=4)
+    
+    with open('./movies/fixtures/{}_movie.json'.format(today),'w', encoding='UTF-8') as f:
+        json.dump(new_today_movie_list, f, ensure_ascii=False, indent=4)
+    with open('./movies/fixtures/{}_video.json'.format(today),'w', encoding='UTF-8') as f:
+        json.dump(new_today_video_list, f, ensure_ascii=False, indent=4)
+    with open('./movies/fixtures/{}_genre.json'.format(today),'w', encoding='UTF-8') as f:
+        json.dump(new_today_genre_list, f, ensure_ascii=False, indent=4)
     
     
     return df_today_movies
-get_today_movie_list()

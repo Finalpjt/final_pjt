@@ -10,6 +10,13 @@
         "model": "movies.TodayRelatedVideo",
         "fields": {
             "movie_id": 385687,
+            "video": "https://www.youtube.com/watch?v=wU7x1h2f7mE"
+        }
+    },
+    {
+        "model": "movies.TodayRelatedVideo",
+        "fields": {
+            "movie_id": 385687,
             "video": "https://www.youtube.com/watch?v=d5vE5_w6cVE"
         }
     },
@@ -25,13 +32,6 @@
         "fields": {
             "movie_id": 385687,
             "video": "https://www.youtube.com/watch?v=K4Gqwv31mGk"
-        }
-    },
-    {
-        "model": "movies.TodayRelatedVideo",
-        "fields": {
-            "movie_id": 385687,
-            "video": "https://www.youtube.com/watch?v=NacLe5HWXvI"
         }
     },
     {
@@ -73,6 +73,20 @@
         "model": "movies.TodayRelatedVideo",
         "fields": {
             "movie_id": 502356,
+            "video": "https://www.youtube.com/watch?v=8rHNp7cPUb0"
+        }
+    },
+    {
+        "model": "movies.TodayRelatedVideo",
+        "fields": {
+            "movie_id": 502356,
+            "video": "https://www.youtube.com/watch?v=o-uw1ZmIi7o"
+        }
+    },
+    {
+        "model": "movies.TodayRelatedVideo",
+        "fields": {
+            "movie_id": 502356,
             "video": "https://www.youtube.com/watch?v=LTFGH0rJ-EY"
         }
     },
@@ -88,20 +102,6 @@
         "fields": {
             "movie_id": 502356,
             "video": "https://www.youtube.com/watch?v=yP-Qduvw9zY"
-        }
-    },
-    {
-        "model": "movies.TodayRelatedVideo",
-        "fields": {
-            "movie_id": 502356,
-            "video": "https://www.youtube.com/watch?v=HZxWhK2aDTY"
-        }
-    },
-    {
-        "model": "movies.TodayRelatedVideo",
-        "fields": {
-            "movie_id": 502356,
-            "video": "https://www.youtube.com/watch?v=Frjmyg-Audk"
         }
     },
     {

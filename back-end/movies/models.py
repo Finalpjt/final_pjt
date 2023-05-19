@@ -56,6 +56,10 @@ class TodayGenre(models.Model):
 class TodayRelatedVideo(models.Model):
     movie = models.ForeignKey("TodayMovie", on_delete=models.CASCADE)
     video = models.URLField(max_length=200, null=True)
+    
+    
+class TodayMovieCreated(models.Model):
+    today = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
     movie_id = models.ForeignKey(AllMovie, on_delete=models.CASCADE)

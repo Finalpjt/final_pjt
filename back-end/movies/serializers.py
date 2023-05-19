@@ -32,15 +32,6 @@ class TodayGenreSerializer(serializers.ModelSerializer):
         model = AllGenre
         fields = ('genre_ids',) 
         
-    # def get_genres_ids(self, objectt):
-    #     output = []
-    #     x = TodayGenre.objects.get_or_create(genres_ids = genre_ids)
-    #     print(x)
-        # for obj in objectt:
-        #     print('--------------------------------------------------')
-        #     print(obj)
-        #     output.append(obj)
-        # return x
 
 class TodayVideoListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,24 +46,7 @@ class TodayMovieListSerializer(serializers.ModelSerializer):
         model = TodayMovie
         fields = '__all__'
         
-    # def get_genre_ids(self, objectt):
-    #     output = []
-    #     x = TodayGenre.objects.get(genres = objectt.genre_ids)
-    #     print(x)
-    #     print('-----------------------------------------')
-    #     # for obj in objectt:
-    #     #     print('--------------------------------------------------')
-    #     #     print(obj)
-    #     #     output.append(obj)
-        # return x
 
-# class MovieListSerializer(serializers.ModelSerializer):
-#     username = serializers.CharField(source='user.username', read_only=True)
-
-#     class Meta:
-#         model = Movie
-#         # fields = ('id', 'title', 'content')
-#         fields = ('id', 'title', 'content', 'user', 'username')
 
 
 class CommentSerializer(serializers.ModelSerializer):

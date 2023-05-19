@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+# from django.db import connections
 # Authentication Decorators
 # from rest_framework.decorators import authentication_classes
 
@@ -13,10 +14,63 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
 from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
-from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment
+from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated
+
+from common.todaymovie import get_today_movie_list
+from datetime import date, datetime, timedelta
+import json
 
 
 
+def today_json_to_db():
+    ymd = date.today() - timedelta(1)
+    ymd = datetime.strftime(ymd, '%Y%m%d')
+    today = ymd
+    with open('./movies/fixtures/{}_movie.json'.format(today), 'r', encoding='UTF-8') as f:
+        today_movie_js = json.loads(f.read()) ## json 라이브러리 이용
+
+    with open('./movies/fixtures/{}_video.json'.format(today)) as f:
+        today_video_js = json.loads(f.read()) ## json 라이브러리 이용
+
+    with open('./movies/fixtures/{}_genre.json'.format(today)) as f:
+        today_genre_js = json.loads(f.read()) ## json 라이브러리 이용
+
+    today_movie_list = today_movie_js
+    today_video_list = list(today_video_js)
+    today_genre_list = list(today_genre_js)
+    
+    for movie in today_movie_list:
+        # Movie 모델 필드명에 맞추어 데이터를 저장함.
+        movie_list = TodayMovie()
+        movie = movie['fields']
+        movie_list.adult = movie['adult']
+        movie_list.backdrop_path = movie['backdrop_path']
+        movie_list.movie_id = movie['movie_id']
+        movie_list.original_language = movie['original_language']
+        movie_list.overview = movie['overview']
+        movie_list.popularity = movie['popularity']
+        movie_list.poster_path = movie['poster_path']
+        movie_list.release_date = movie['release_date']
+        movie_list.title = movie['title']
+        movie_list.vote_average = movie['vote_average']
+        movie_list.vote_count = movie['vote_count']
+        movie_list.eng_title = movie['eng_title']
+        movie_list.save()
+    
+    for videos in today_video_list:
+        video_list = TodayRelatedVideo()
+        videos = videos['fields']
+        video_list.movie_id = videos['movie_id']
+        video_list.video = videos['video']
+        video_list.save()
+        
+    for genres in today_genre_list:
+        genre_list = TodayGenre()
+        genres = genres['fields']
+        genre_list.movie_id = genres['movie_id']
+        genre_list.genre_ids = genres['genre_ids']
+        genre_list.save()
+    
 @api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
 def movie_list(request):
@@ -45,8 +99,21 @@ def movie_list(request):
 
 @api_view(['GET', 'POST'])
 def today_movie_list(request):
+    # get_today_movie_list()
+    days, is_created = TodayMovieCreated.objects.get_or_create()
+    today_ymd = datetime.strftime(days.today, '%Y-%m-%d')
+    print(today_ymd)
+    print(is_created)
+    print(days.today)
+    print(str(days.today))
+    
+    if today_ymd in str(days.today) and is_created:
+        get_today_movie_list()
+        today_json_to_db()
+        
     if request.method == 'GET':
         movies = get_list_or_404(TodayMovie)
+        print(movies)
         serializer = TodayMovieListSerializer(movies, many=True)
         for iidx in range(len(serializer.data)):
             genre_list, video_list = [], []
