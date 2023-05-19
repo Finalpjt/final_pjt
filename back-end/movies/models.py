@@ -60,6 +60,12 @@ class TodayRelatedVideo(models.Model):
     
 class TodayMovieCreated(models.Model):
     today = models.DateTimeField(auto_now=True)
+    
+class MovieDetail(models.Model):
+    movie = models.ForeignKey("AllMovie", on_delete=models.CASCADE)
+    budget = models.BigIntegerField(null=True)
+    revenue = models.BigIntegerField(null=True)
+    tagline = models.TextField(null=True)
 
 class Comment(models.Model):
     movie_id = models.ForeignKey(AllMovie, on_delete=models.CASCADE)

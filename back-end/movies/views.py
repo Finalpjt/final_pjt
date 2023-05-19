@@ -14,9 +14,10 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
 from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
-from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated
+from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated, MovieDetail
 
 from common.todaymovie import get_today_movie_list
+from common.detail import movie_detail_url
 from datetime import date, datetime, timedelta
 import json
 
@@ -174,8 +175,9 @@ def today_movie_list(request):
 @api_view(['GET', 'DELETE', 'PUT'])
 def movie_detail(request, movie_id):
     # movie = Movie.objects.get(pk=movie_id)
+    # movie = movie_detail_url(movie_id)
     movie = get_object_or_404(AllMovie, pk=movie_id)
-
+    
     if request.method == 'GET':
         serializer = AllMovieListSerializer(movie)
         print(serializer.data)
@@ -193,7 +195,18 @@ def movie_detail(request, movie_id):
 
 @api_view(['GET', 'DELETE', 'PUT'])
 def today_movie_detail(request, movie_id):
-    movie = get_object_or_404(TodayMovie, pk=movie_id)
+    movie_detail = movie_detail_url(movie_id)
+    print(movie_detail)
+    for md in movie_detail:
+        movie = MovieDetail()
+        movie.movie = md['movie_id']
+        movie.budget = md['budget']
+        movie.revenue = md['revenue']
+        movie.tagline = md['tagline']
+        movie.save()
+    print('일단 movieset을 db에 저장함')
+    print(movie)
+    # movie = get_object_or_404(TodayMovie, pk=movie_id)
 
     if request.method == 'GET':
         serializer = TodayMovieListSerializer(movie)
