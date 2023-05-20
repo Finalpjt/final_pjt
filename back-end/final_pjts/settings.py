@@ -53,16 +53,15 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'corsheaders',
-    # 'django_crontab',
     
     'rest_framework.authtoken',
     'dj_rest_auth',
     
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'dj_rest_auth.registration',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     
     'django_extensions',
     'django.contrib.admin',
@@ -180,13 +179,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -202,9 +201,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-DATE_INPUT_FORMATS = ['%Y-%m-%d']
-
-# CRONJOBS = [
-#     ('0,15,30,45 * * * *', 'movies.cron.schedule_job'),
-# ]
