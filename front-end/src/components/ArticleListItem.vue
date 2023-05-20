@@ -2,7 +2,6 @@
   <div>
     <h5>{{ article.id }}</h5>
     <p>{{ article.title }}</p>
-    <p>{{ article.id }}</p>
     <router-link :to="{
       name: 'DetailView',
       params: {id: article.id }}">
