@@ -7,7 +7,7 @@ from django.conf import settings
 class AllMovie(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     adult = models.BooleanField()
-    backdrop_path = models.TextField(null=True)
+    backdrop_path = models.URLField(null=True)
     # genre_ids = models.ForeignKey(AllGenre, on_delete=models.CASCADE)
     # genre_ids = models.ManyToManyField(AllGenre)
     movie_id = models.IntegerField(primary_key=True)
@@ -56,6 +56,16 @@ class TodayGenre(models.Model):
 class TodayRelatedVideo(models.Model):
     movie = models.ForeignKey("TodayMovie", on_delete=models.CASCADE)
     video = models.URLField(max_length=200, null=True)
+    
+    
+class TodayMovieCreated(models.Model):
+    today = models.DateTimeField(auto_now=True)
+    
+class MovieDetail(models.Model):
+    movie = models.ForeignKey("AllMovie", on_delete=models.CASCADE)
+    budget = models.BigIntegerField(null=True)
+    revenue = models.BigIntegerField(null=True)
+    tagline = models.TextField(null=True)
 
 class Comment(models.Model):
     movie_id = models.ForeignKey(AllMovie, on_delete=models.CASCADE)
