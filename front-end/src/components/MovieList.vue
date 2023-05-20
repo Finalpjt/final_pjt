@@ -2,7 +2,7 @@
   <div class="movie-list">
     <h3>Movie List</h3>
     <MovieListItem 
-    v-for="movie in movies" :key="movie.id" :movie="movie"
+    v-for="movie in Todaymovies" :key="movie.id" :movie="movie"
     />
   </div>
 </template>
@@ -16,8 +16,8 @@ export default {
     MovieListItem,
   },
   computed: {
-    movies() {
-      return this.$store.state.movies
+    Todaymovies() {
+      return this.$store.state.today_movies
     }
   }
 }

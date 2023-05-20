@@ -20,12 +20,12 @@ export default {
     }
   },
   created() {
-    this.getMovies()
+    this.getTodayMovies()
   },
   methods: {
-    getMovies() {
+    getTodayMovies() {
       if (this.isLogin) {
-        this.$store.dispatch('getMovies')
+        this.$store.dispatch('getTodayMovies')
       } else {
         alert('로그인이 필요한 페이지입니다...')
         this.$router.push({ name: 'HomeView' })
