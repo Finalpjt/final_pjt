@@ -82,31 +82,50 @@ def today_json_to_db():
         genre_list.genre_ids = genres['genre_ids']
         genre_list.save()
     
-@api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
-def movie_list(request):
-    if request.method == 'GET':
-        movies = get_list_or_404(AllMovie)
-        serializer = AllMovieListSerializer(movies, many=True)
-        for iidx in range(len(serializer.data)):
-            genre_list, video_list = [], []
-            for genre in dict(serializer.data[iidx])['genres']:
-                genre_list.append(dict(genre)['genre_ids'])
-            for idx, i in enumerate(genre_list):
-                serializer.data[iidx]['genres'][idx] = i
+# @api_view(['GET', 'POST'])
+# # @permission_classes([IsAuthenticated])
+# def movie_list(request):
+#     if request.method == 'GET':
+#         movies = get_list_or_404(AllMovie)
+#         serializer = AllMovieListSerializer(movies, many=True)
+#         for iidx in range(len(serializer.data)):
+#             genre_list, video_list = [], []
+#             for genre in dict(serializer.data[iidx])['genres']:
+#                 genre_list.append(dict(genre)['genre_ids'])
+#             for idx, i in enumerate(genre_list):
+#                 serializer.data[iidx]['genres'][idx] = i
                 
-            for video in dict(serializer.data[iidx])['videos']:
-                video_list.append(dict(video))
-            for v_idx, v in enumerate(video_list):
-                serializer.data[iidx]['videos'][v_idx] = v['video']
-        return Response(serializer.data)
+#             for video in dict(serializer.data[iidx])['videos']:
+#                 video_list.append(dict(video))
+#             for v_idx, v in enumerate(video_list):
+#                 serializer.data[iidx]['videos'][v_idx] = v['video']
+#         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = AllMovieListSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            # serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     elif request.method == 'POST':
+#         serializer = AllMovieListSerializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save()
+#             # serializer.save(user=request.user)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def best_movie_list(request):
+    movies = AllMovie.objects.all()
+    movies = movies.order_by('-popularity')
+    movies = movies[:10]
+    serializer = AllMovieListSerializer(movies, many=True)
+    for iidx in range(len(serializer.data)):
+        genre_list, video_list = [], []
+        for genre in dict(serializer.data[iidx])['genres']:
+            genre_list.append(dict(genre)['genre_ids'])
+        for idx, i in enumerate(genre_list):
+            serializer.data[iidx]['genres'][idx] = i
+            
+        for video in dict(serializer.data[iidx])['videos']:
+            video_list.append(dict(video))
+        for v_idx, v in enumerate(video_list):
+            serializer.data[iidx]['videos'][v_idx] = v['video']
+    return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
 def today_movie_list(request):
@@ -172,12 +191,32 @@ def today_movie_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['GET'])
+def movie_page(request, page_id):
+    for i in range(20):
+        movies = AllMovie.objects.all()
+        movies = movies[page_id*20-20 : page_id*20]
+        print(movies)
+    serializer = AllMovieListSerializer(movies, many=True)
+    for iidx in range(len(serializer.data)):
+        genre_list, video_list = [], []
+        for genre in dict(serializer.data[iidx])['genres']:
+            genre_list.append(dict(genre)['genre_ids'])
+        for idx, i in enumerate(genre_list):
+            serializer.data[iidx]['genres'][idx] = i
+            
+        for video in dict(serializer.data[iidx])['videos']:
+            video_list.append(dict(video))
+        for v_idx, v in enumerate(video_list):
+            serializer.data[iidx]['videos'][v_idx] = v['video']
+    return Response(serializer.data)    
+
 @api_view(['GET', 'DELETE', 'PUT'])
 def movie_detail(request, movie_id):
     # movie = Movie.objects.get(pk=movie_id)
     # movie = movie_detail_url(movie_id)
     movie = get_object_or_404(AllMovie, pk=movie_id)
-    
+    print(movie)
     if request.method == 'GET':
         serializer = AllMovieListSerializer(movie)
         print(serializer.data)
