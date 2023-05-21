@@ -8,7 +8,7 @@
     <p>수정시간 : {{ movie?.updated_at }}</p>
     <!-- <Comments 
           id=""/> -->
-    {{allmovie}}
+    <!-- {{allmovie}} -->
     {
     "movie_id": 385687,
     "adult": false,
@@ -34,14 +34,13 @@ export default {
   name: 'DetailView',
   data() {
     return {
-      allmovie: this.$store.state.movie,
+      // allmovie: this.$store.state.movie,
       movie: null,
-      
     }
   },
   created() {
     this.getMovieDetail()
-    console.allmovie
+    // console.allmovie
   },
   methods: {
     getMovieDetail() {

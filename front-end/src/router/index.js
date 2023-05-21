@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import SignupView from '../views/SignupView.vue'
 import DetailView from '../views/DetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ProfileChangeView from '../views/ProfileChangeView.vue'
 import MainView from '../views/MainView.vue'
+import SearchView from '../views/SearchView.vue'
+import SignupView from '../views/SignupView.vue'
 
 Vue.use(VueRouter)
 
@@ -39,7 +40,12 @@ const routes = [
     path: '/main',
     name: 'MainView',
     component: MainView
-  }
+  },
+  {
+    path: '/search',
+    name: 'SearchView',
+    component: SearchView
+  },
 ]
 
 const router = new VueRouter({

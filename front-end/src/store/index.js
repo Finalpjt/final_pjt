@@ -19,7 +19,8 @@ export default new Vuex.Store({
     today_movies:[],
     token: null,
     userdata: null,
-    comments:[]
+    // comments:[],
+    // search: null
   },
   getters: {
     isLogin(state) {
@@ -27,9 +28,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    GET_COMMENTS(state, comments) {
-      state.comments = comments
-    },
+    // GET_COMMENTS(state, comments) {
+    //   state.comments = comments
+    // },
     GET_MOVIES(state, movies) {
       state.movies = movies
     },
@@ -46,22 +47,26 @@ export default new Vuex.Store({
       state.token = null
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       location.reload(true)
-    }
-  },
-  actions: {
-    getComments(context) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v1/articles/`,
-      })
-        .then((res) => {
-        // console.log(res, context)
-          context.commit('GET_COMMENTS', res.data)
-        })
-        .catch((err) => {
-        console.log(err)
-      })
     },
+    // SEARCH(state, search) {
+    //   state.search = search
+    // }
+  },
+
+  actions: {
+    // getComments(context) {
+    //   axios({
+    //     method: 'get',
+    //     url: `${API_URL}/api/v1/articles/`,
+    //   })
+    //     .then((res) => {
+    //     // console.log(res, context)
+    //       context.commit('GET_COMMENTS', res.data)
+    //     })
+    //     .catch((err) => {
+    //     console.log(err)
+    //   })
+    // },
     getMovies(context) {
       axios({
         method: 'get',
@@ -150,7 +155,21 @@ export default new Vuex.Store({
     },
     logout(context){
       context.commit('LOG_OUT')
-    }
+    },
+    // search(context, payload) {
+    //   const serach = payload.search
+    //   axios({
+    //     method: 'GET',
+    //     url:`https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR`,
+    //     headers:{
+    //       Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjOTg4ZGNlZmM5ODcyZTdkOGViNGExYjE1OTJmZDBjOCIsInN1YiI6IjYzZDMxNjg1YTQxMGM4MTFmMTkzMjY2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4ih03Kuit6v5-emGvTjbcZUMh5P4naEO0vl-Db7PTCk
+    //     }
+    //   })
+    //   .then((res) => {
+    //     context.commit('SEARCH', res.data)
+    //     })
+    //   .catch((err) => console.log(err))
+    // }
   },
   modules: {
   }

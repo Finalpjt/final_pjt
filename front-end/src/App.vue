@@ -16,7 +16,10 @@
     Sign Up
     </router-link>
 
-    <button v-if="isLogin" @click=logout()>logout</button>
+    <input type="text" v-model="serach" @keyup.enter="serach" value="search">
+    <button @click="search">search</button>
+
+    <button v-if="isLogin" @click="logout">logout</button>
     <router-view />
   </div>
 </template>
@@ -31,7 +34,10 @@ export default {
   methods: {
     logout () {
       this.$store.dispatch('logout')
-    }
+    },
+    serach() {
+      this.$store.distpatch('search')
+    },
   }
 }
 </script>
