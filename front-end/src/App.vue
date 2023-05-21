@@ -3,7 +3,9 @@
     <router-link to="/">
     Home
     </router-link>
-    |
+    
+    <span v-if="isLogin">
+    |  
     <router-link to="/profile">
     profile
     </router-link>
@@ -19,8 +21,11 @@
     <input ref="cursor" type="text" v-model="searchkey" @keyup.enter="search()" value="search">
     <button @click="search()">search</button>
 
+    </span>
+
     <button v-if="isLogin" @click="logout">logout</button>
     <router-view />
+
   </div>
 </template>
 

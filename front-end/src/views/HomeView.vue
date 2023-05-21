@@ -2,24 +2,24 @@
   <div id="home">
     <h1>Home Page</h1>
     <h2>Login</h2>
-    <p v-if="this.isLogin">
+    <div v-if="this.isLogin">
       isLogin.
       <br>
       <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
       <button @click="search()">search</button>
-    </p>
-    <form @submit.prevent="login" v-if="!this.isLogin">
+    </div>
+    <div v-if="!this.isLogin">
       <label for="username">사용자명 : </label>
-      <input @keyup.enter="Cursor_password()" ref="cursor" type="text" id="username" v-model="username"><br>
+      <input @keyup.enter="Cursor_password" ref="cursor" type="text" id="username" v-model="username"><br>
 
       <label for="password"> 비밀번호 : </label>
-      <input ref="cursor_password" type="password" id="password" v-model="password"><br>
+      <input @keyup.enter="login" ref="cursor_password" type="password" id="password" v-model="password"><br>
 
-      <input type="submit" value="확인">
+      <input @click="login" type="submit" value="확인">
       <router-link v-if="!isLogin" to="/signup">
       회원가입
       </router-link>
-    </form>
+    </div>
 
 <!--   <ul class=""> -->
       <!-- 비 로그인 시  -->
