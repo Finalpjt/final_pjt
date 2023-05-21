@@ -16,8 +16,8 @@
     Sign Up
     </router-link>
 
-    <input type="text" v-model="serach" @keyup.enter="serach" value="search">
-    <button @click="search">search</button>
+    <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
+    <button @click="search()">search</button>
 
     <button v-if="isLogin" @click="logout">logout</button>
     <router-view />
@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      searchkey: null,
+    }
+  },
   computed: {
     isLogin() {
       return this.$store.getters.isLogin // 로그인 여부
@@ -35,8 +40,12 @@ export default {
     logout () {
       this.$store.dispatch('logout')
     },
-    serach() {
-      this.$store.distpatch('search')
+    search() {
+      const searchkey = this.searchkey
+      const payload = {
+        searchkey
+      }
+      this.$store.dispatch('search', payload)
     },
   }
 }

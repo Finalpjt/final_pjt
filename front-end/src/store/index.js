@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
-// import router from '../router'
+import router from '../router'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     token: null,
     userdata: null,
     // comments:[],
-    // search: null
+    search_movies: []
   },
   getters: {
     isLogin(state) {
@@ -48,9 +48,11 @@ export default new Vuex.Store({
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       location.reload(true)
     },
-    // SEARCH(state, search) {
-    //   state.search = search
-    // }
+    SEARCH(state, movies) {
+      state.search_movies = movies
+      router.push({name : 'SearchView'}) // if Search View라면 reload 아니라면 search view로 이동
+      // location.reload(true)
+    }
   },
 
   actions: {
@@ -156,20 +158,20 @@ export default new Vuex.Store({
     logout(context){
       context.commit('LOG_OUT')
     },
-    // search(context, payload) {
-    //   const serach = payload.search
-    //   axios({
-    //     method: 'GET',
-    //     url:`https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR`,
-    //     headers:{
-    //       Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjOTg4ZGNlZmM5ODcyZTdkOGViNGExYjE1OTJmZDBjOCIsInN1YiI6IjYzZDMxNjg1YTQxMGM4MTFmMTkzMjY2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.4ih03Kuit6v5-emGvTjbcZUMh5P4naEO0vl-Db7PTCk
-    //     }
-    //   })
-    //   .then((res) => {
-    //     context.commit('SEARCH', res.data)
-    //     })
-    //   .catch((err) => console.log(err))
-    // }
+    search(context, payload) {
+      const query = payload.searchkey
+      console.log(query)
+      axios({
+        method: 'GET',
+        url: `https://api.themoviedb.org/3/search/movie?page=1&language=ko-KR&api_key=&query=${query}`,
+        //url 1페이지만 갖고 오도록 해놓음
+      })
+      .then((res) => {
+        // console.log(res.data.results)
+        context.commit('SEARCH', res.data.results)
+        })
+      .catch((err) => console.log(err))
+    }
   },
   modules: {
   }
