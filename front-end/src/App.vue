@@ -16,7 +16,7 @@
     Sign Up
     </router-link>
 
-    <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
+    <input ref="cursor" type="text" v-model="searchkey" @keyup.enter="search()" value="search">
     <button @click="search()">search</button>
 
     <button v-if="isLogin" @click="logout">logout</button>
@@ -36,6 +36,9 @@ export default {
       return this.$store.getters.isLogin // 로그인 여부
     },
   },
+  mounted() {
+    this.startCursor()
+  },
   methods: {
     logout () {
       this.$store.dispatch('logout')
@@ -46,6 +49,10 @@ export default {
         searchkey
       }
       this.$store.dispatch('search', payload)
+      this.searchkey = null
+    },
+    startCursor() {
+      this.$refs.cursor.focus()
     },
   }
 }

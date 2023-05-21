@@ -50,8 +50,9 @@ export default new Vuex.Store({
     },
     SEARCH(state, movies) {
       state.search_movies = movies
-      router.push({name : 'SearchView'}) // if Search View라면 reload 아니라면 search view로 이동
-      // location.reload(true)
+      router.go(router.currentRoute)
+      router.push({name: 'SearchViewe'})
+       // 현재 위치 새로고침
     }
   },
 
@@ -160,10 +161,10 @@ export default new Vuex.Store({
     },
     search(context, payload) {
       const query = payload.searchkey
-      console.log(query)
+      // console.log(query)
       axios({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/search/movie?page=1&language=ko-KR&api_key=&query=${query}`,
+        url: `https://api.themoviedb.org/3/search/movie?page=1&language=ko-KR&api_key=c988dcefc9872e7d8eb4a1b1592fd0c8&query=${query}`,
         //url 1페이지만 갖고 오도록 해놓음
       })
       .then((res) => {

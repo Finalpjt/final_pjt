@@ -50,7 +50,10 @@
         // 로그인이 되어 있으면 getArticles action 실행
         // 로그인 X라면 login 페이지로 이동
   
-      }
+      },
+      startCursor() {
+      this.$refs.cursor.focus()
+      },
     }
   }
   </script>
