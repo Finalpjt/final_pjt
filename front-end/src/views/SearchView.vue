@@ -51,9 +51,7 @@
         // 로그인 X라면 login 페이지로 이동
   
       },
-      startCursor() {
-      this.$refs.cursor.focus()
-      },
+
     }
   }
   </script>
