@@ -1,12 +1,14 @@
 <template>
   <div>
     <h1>Detail</h1>
-    <p>글 번호 : {{ movie?.adult }}</p>
+    <p>글 번호 : {{ movie?.movie_id }}</p>
     <p>제목 : {{ movie?.original_language }}</p>
-    <p>내용 : {{ movie?.genres }}</p>
+    <p>장르 : {{ movie?.genres }}</p>
     <p>작성시간 : {{ movie?.created_at }}</p>
     <p>수정시간 : {{ movie?.updated_at }}</p>
-    <!-- <ArticleList/> -->
+    <!-- <Comments 
+          id=""/> -->
+    {{allmovie}}
     {
     "movie_id": 385687,
     "adult": false,
@@ -32,17 +34,20 @@ export default {
   name: 'DetailView',
   data() {
     return {
-      movie: null
+      allmovie: this.$store.state.movie,
+      movie: null,
+      
     }
   },
   created() {
     this.getMovieDetail()
+    console.allmovie
   },
   methods: {
     getMovieDetail() {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/${ this.$route.params.id }/`,
+        url: `${API_URL}/api/v1/movies/${ this.$route.params.id }`,
       })
       .then((res) => {
         console.log(res)

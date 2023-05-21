@@ -18,7 +18,8 @@ export default new Vuex.Store({
     movies: [],
     today_movies:[],
     token: null,
-    userdata: null
+    userdata: null,
+    comments:[]
   },
   getters: {
     isLogin(state) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    GET_COMMENTS(state, comments) {
+      state.comments = comments
+    },
     GET_MOVIES(state, movies) {
       state.movies = movies
     },
@@ -45,14 +49,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getArticles(context) {
+    getComments(context) {
       axios({
         method: 'get',
         url: `${API_URL}/api/v1/articles/`,
       })
         .then((res) => {
         // console.log(res, context)
-          context.commit('GET_ARTICLES', res.data)
+          context.commit('GET_COMMENTS', res.data)
         })
         .catch((err) => {
         console.log(err)
@@ -78,7 +82,8 @@ export default new Vuex.Store({
         url: `${API_URL}/api/v1/movies/today/`,
       })
         .then((res) => {
-        // console.log(res, context)
+        console.log(res, context)
+
           context.commit('GET_TODAY_MOVIES', res.data)
           // console.log(res.data)
         })
