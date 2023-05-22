@@ -1,12 +1,67 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-link to="/">
+    Home
+    </router-link>
+    
+    <span v-if="isLogin">
+    |  
+    <router-link to="/profile">
+    profile
+    </router-link>
+    |
+    <router-link to="/main">
+    main page
+    </router-link>
+    |
+    <router-link v-if="!isLogin" to="/signup">
+    Sign Up
+    </router-link>
+
+    <input ref="cursor" type="text" v-model="searchkey" @keyup.enter="search()" value="search">
+    <button @click="search()">search</button>
+
+    </span>
+
+    <button v-if="isLogin" @click="logout">logout</button>
+    <router-view />
+
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchkey: null,
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin // 로그인 여부
+    },
+  },
+  mounted() {
+    this.startCursor()
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    },
+    search() {
+      const searchkey = this.searchkey
+      const payload = {
+        searchkey
+      }
+      this.$store.dispatch('search', payload)
+      this.searchkey = null
+    },
+    startCursor() {
+      this.$refs.cursor.focus()
+    },
+  }
+}
+</script>
 
 <style>
 #app {

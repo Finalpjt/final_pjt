@@ -18,7 +18,16 @@ def movie_detail_url(movie_id):
             'budget': data['budget'],
             'revenue': data['revenue'],
             'tagline': data['tagline'],
+            'adult': data['adult'],
+            'backdrop_path': data['backdrop_path'],
+            'homepage': data['homepage'],
+            'original_title': data['original_title'],
+            'overview': data['overview'],
+            'popularity': data['popularity'],
+            'poster_path': data['poster_path'],
+            'release_date': data['release_date'],
+            'runtime': data['runtime'],
+            'vote_average': data['vote_average'],
         }
     ]
-    
     return new_data

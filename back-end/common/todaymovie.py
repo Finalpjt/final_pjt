@@ -123,9 +123,6 @@ def get_today_movie_list():
     df_today_movies = df_today_movies.drop(columns = ['genre_ids'])
     
     
-    # df_today_movies.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\{}_movie.json'.format(today), force_ascii=False, orient = 'records', indent=4)
-    # df_today_video.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\{}_video.json'.format(today), force_ascii=False, orient = 'records', indent=4)
-    # df_today_genres.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\{}_genre.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     df_today_movies.to_json(r'./movies/fixtures/{}_movie.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     df_today_video.to_json(r'./movies/fixtures/{}_video.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     df_today_genres.to_json(r'./movies/fixtures/{}_genre.json'.format(today), force_ascii=False, orient = 'records', indent=4)

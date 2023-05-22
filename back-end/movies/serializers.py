@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import AllGenre, AllMovie, AllRelatedVideo, TodayGenre, TodayMovie, TodayRelatedVideo, Comment
-
+from .models import MovieDetail
 
 
 class AllGenreSerializer(serializers.ModelSerializer):
@@ -11,9 +11,6 @@ class AllGenreSerializer(serializers.ModelSerializer):
 class AllVideoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AllRelatedVideo
-        # fields = ('id', 'title', 'content')
-        # fields = ('id', 'title', 'content', 'user', 'username')
-        # fields = '__all__'
         fields = ('video',)
         
 class AllMovieListSerializer(serializers.ModelSerializer):
@@ -46,8 +43,10 @@ class TodayMovieListSerializer(serializers.ModelSerializer):
         model = TodayMovie
         fields = '__all__'
         
-
-
+class MovieDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovieDetail
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
 

@@ -88,13 +88,13 @@ df_movies = df_movies.drop(columns = ['video'])
 df_movies.rename(columns = {'id' : 'movie_id'}, inplace = True)
 
 
-df_movies.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\all_movie.json', force_ascii=False, orient = 'records', indent=4)
-df_all_video.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\all_movie_video.json', force_ascii=False, orient = 'records', indent=4)
-df_all_genres.to_json(r'C:\Users\SSAFY\Desktop\1학기\PJT\final_pjt\back-end\movies\fixtures\all_movie_genre.json', force_ascii=False, orient = 'records', indent=4)
+df_movies.to_json(r'./movies/fixtures/all_movie.json', force_ascii=False, orient = 'records', indent=4)
+df_all_video.to_json(r'./movies/fixtures/all_movie_video.json', force_ascii=False, orient = 'records', indent=4)
+df_all_genres.to_json(r'./movies/fixtures/all_movie_genre.json', force_ascii=False, orient = 'records', indent=4)
 
 # 데이터 형태 바꾸기 (django model에 추가하기 위한 과정)
 
-with open('./movies/fixtures/AllMovie.json') as f:
+with open('./movies/fixtures/all_movie.json') as f:
     all_movie_js = json.loads(f.read()) ## json 라이브러리 이용
 
 with open('./movies/fixtures/all_movie_video.json') as f:

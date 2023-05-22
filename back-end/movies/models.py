@@ -35,7 +35,7 @@ class AllRelatedVideo(models.Model):
 class TodayMovie(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     adult = models.BooleanField()
-    backdrop_path = models.TextField(null=True)
+    backdrop_path = models.URLField(null=True)
     # genre_ids = models.ForeignKey(AllGenre, on_delete=models.CASCADE)
     # genre_ids = models.ManyToManyField(AllGenre)
     movie_id = models.IntegerField(primary_key=True)
@@ -62,10 +62,26 @@ class TodayMovieCreated(models.Model):
     today = models.DateTimeField(auto_now=True)
     
 class MovieDetail(models.Model):
-    movie = models.ForeignKey("AllMovie", on_delete=models.CASCADE)
+    movie_id = models.IntegerField(primary_key=True)
+    # movie = models.ForeignKey(AllMovie, on_delete=models.CASCADE)
     budget = models.BigIntegerField(null=True)
     revenue = models.BigIntegerField(null=True)
     tagline = models.TextField(null=True)
+    adult = models.BooleanField(null=True)
+    backdrop_path = models.URLField(null=True)
+    homepage = models.URLField(null=True)
+    original_title = models.CharField(max_length=20, null=True)
+    overview = models.TextField(null=True)
+    popularity = models.DecimalField(max_digits=100000, decimal_places=3, default=0)
+    poster_path = models.URLField(null=True)
+    release_date = models.DateField(null=True)
+    runtime = models.IntegerField(null=True)
+    vote_average = models.DecimalField(max_digits=10, decimal_places=3, default=0)
+    
+
+class ActorList(models.Model):
+    actor = models.IntegerField(primary_key=True)
+    
 
 class Comment(models.Model):
     movie_id = models.ForeignKey(AllMovie, on_delete=models.CASCADE)

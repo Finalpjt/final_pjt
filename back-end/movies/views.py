@@ -14,7 +14,9 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
 from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
+from .serializers import MovieDetailSerializer
 from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated, MovieDetail
+from .models import MovieDetail
 
 from common.todaymovie import get_today_movie_list
 from common.detail import movie_detail_url
@@ -211,66 +213,58 @@ def movie_page(request, page_id):
             serializer.data[iidx]['videos'][v_idx] = v['video']
     return Response(serializer.data)    
 
-@api_view(['GET', 'DELETE', 'PUT'])
+@api_view(['GET'])
 def movie_detail(request, movie_id):
-    # movie = Movie.objects.get(pk=movie_id)
-    # movie = movie_detail_url(movie_id)
-    movie = get_object_or_404(AllMovie, pk=movie_id)
-    print(movie)
-    if request.method == 'GET':
-        serializer = AllMovieListSerializer(movie)
-        print(serializer.data)
-        return Response(serializer.data)
-    
-    elif request.method == 'DELETE':
-        movie.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    elif request.method == 'PUT':
-        serializer = AllMovieListSerializer(movie, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
-
-@api_view(['GET', 'DELETE', 'PUT'])
-def today_movie_detail(request, movie_id):
     movie_detail = movie_detail_url(movie_id)
     print(movie_detail)
     for md in movie_detail:
-        movie = MovieDetail()
-        movie.movie = md['movie_id']
-        movie.budget = md['budget']
-        movie.revenue = md['revenue']
-        movie.tagline = md['tagline']
-        movie.save()
+        movies = MovieDetail()
+        movies.movie_id = md['movie_id']
+        # movies.movie = md['movie_id']
+        movies.budget = md['budget']
+        movies.revenue = md['revenue']
+        movies.tagline = md['tagline']
+        movies.adult = md['adult']
+        movies.backdrop_path = md['backdrop_path']
+        movies.homepage = md['homepage']
+        movies.original_title =  md['original_title']
+        movies.overview = md['overview']
+        movies.popularity = md['popularity']
+        movies.poster_path = md['poster_path']
+        movies.release_date = md['release_date']
+        movies.runtime = md['runtime']
+        movies.vote_average = md['vote_average']
+        movies.save()
     print('일단 movieset을 db에 저장함')
-    print(movie)
-    # movie = get_object_or_404(TodayMovie, pk=movie_id)
+    print(movies)
 
-    if request.method == 'GET':
-        serializer = TodayMovieListSerializer(movie)
-        genre_list = []
-        for genre in serializer.data['genre_ids']:
-            genre_list.append(dict(genre)['genre_ids'])
-        for idx, i in enumerate(genre_list):
-            serializer.data['genre_ids'][idx] = i
-        
-        video_list = []
-        for video in serializer.data['videos']:
-            video_list.append(dict(video))
-        for v_idx, v in enumerate(video_list):
-            serializer.data['videos'][v_idx] = v['video']
-        return Response(serializer.data)
+    serializer = MovieDetailSerializer(movies)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def today_movie_detail(request, movie_id):
+    movie_detail = movie_detail_url(movie_id)
+    for md in movie_detail:
+        movies = MovieDetail()
+        movies.movie_id = md['movie_id']
+        movies.budget = md['budget']
+        movies.revenue = md['revenue']
+        movies.tagline = md['tagline']
+        movies.adult = md['adult']
+        movies.backdrop_path = md['backdrop_path']
+        movies.homepage = md['homepage']
+        movies.original_title =  md['original_title']
+        movies.overview = md['overview']
+        movies.popularity = md['popularity']
+        movies.poster_path = md['poster_path']
+        movies.release_date = md['release_date']
+        movies.runtime = md['runtime']
+        movies.vote_average = md['vote_average']
+        movies.save()
+
+    serializer = MovieDetailSerializer(movies)
+    return Response(serializer.data)
     
-    elif request.method == 'DELETE':
-        movie.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    elif request.method == 'PUT':
-        serializer = TodayMovieListSerializer(movie, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -310,5 +304,6 @@ def comment_create(request, movie_pk):
     movie = get_object_or_404(AllMovie, pk=movie_pk)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(Movie=Movie)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
