@@ -19,7 +19,6 @@ export default new Vuex.Store({
     today_movies:[],
     token: null,
     userdata: null,
-    // comments:[],
     search_movies: []
   },
   getters: {
@@ -28,9 +27,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    // GET_COMMENTS(state, comments) {
-    //   state.comments = comments
-    // },
     GET_MOVIES(state, movies) {
       state.movies = movies
     },
@@ -38,10 +34,15 @@ export default new Vuex.Store({
       state.today_movies = movies
     },
     // signup & login -> 완료하면 토큰 발급
+    SIGNUP_TOKEN(state, token) {
+      state.token = token
+      router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      // location.reload(true)
+    },
     SAVE_TOKEN(state, token) {
       state.token = token
-      // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
-      location.reload(true)
+      router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      // location.reload(true)
     },
     LOG_OUT(state) {
       state.token = null
@@ -51,26 +52,14 @@ export default new Vuex.Store({
     SEARCH(state, movies) {
       state.search_movies = movies
       // router.go(router.currentRoute)
-      router.push({name: 'SearchView'})
+      // router.push({name: 'SearchView'})
       location.reload(true)
        // 현재 위치 새로고침
     }
   },
 
   actions: {
-    // getComments(context) {
-    //   axios({
-    //     method: 'get',
-    //     url: `${API_URL}/api/v1/articles/`,
-    //   })
-    //     .then((res) => {
-    //     // console.log(res, context)
-    //       context.commit('GET_COMMENTS', res.data)
-    //     })
-    //     .catch((err) => {
-    //     console.log(err)
-    //   })
-    // },
+
     getMovies(context) {
       axios({
         method: 'get',
@@ -91,7 +80,7 @@ export default new Vuex.Store({
         url: `${API_URL}/api/v1/movies/today/`,
       })
         .then((res) => {
-        console.log(res, context)
+        // console.log(res, context)
 
           context.commit('GET_TODAY_MOVIES', res.data)
           // console.log(res.data)
@@ -105,7 +94,7 @@ export default new Vuex.Store({
       const password1 = payload.password1
       const password2 = payload.password2
       const email = payload.email
-
+      console.log(payload)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
@@ -115,7 +104,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
-          context.commit('SAVE_TOKEN', res.data.key)
+          context.commit('SIGNUP_TOKEN', res.data.key)
         })
         .catch((err) => {
         console.log(err)
@@ -155,7 +144,10 @@ export default new Vuex.Store({
         .then((res) => {
         context.commit('SAVE_TOKEN', res.data.key)
         })
-      .catch((err) => console.log(err))
+      .catch((err) => 
+      console.log(err),
+      location.reload(true)
+      )
     },
     logout(context){
       context.commit('LOG_OUT')
@@ -173,7 +165,24 @@ export default new Vuex.Store({
         context.commit('SEARCH', res.data.results)
         })
       .catch((err) => console.log(err))
-    }
+    },
+    // pickActor(context, payload) {
+    //   const actor = payload.pick_actor
+    //   console.log(actor)
+    //   axios({
+    //     method: 'GET',
+    //     url: `http://127.0.0.1:8000/api/v1/movies/predicts/`,
+    //     //url 1페이지만 갖고 오도록 해놓음
+    //     data: {
+    //       actor
+    //     }
+    //   })
+    //   .then((res) => {
+    //     // console.log(res.data.results)
+    //     context.commit('SEARCH', res.data.results)
+    //     })
+    //   .catch((err) => console.log(err))
+    // }
   },
   modules: {
   }

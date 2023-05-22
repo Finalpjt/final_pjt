@@ -24,7 +24,5 @@ export default {
 </script>
 
 <style>
-.movie-list {
-  text-align: start;
-}
+
 </style>

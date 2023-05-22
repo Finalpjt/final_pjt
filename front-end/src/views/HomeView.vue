@@ -20,43 +20,6 @@
       회원가입
       </router-link>
     </div>
-
-<!--   <ul class=""> -->
-      <!-- 비 로그인 시  -->
-      <!-- <div class="navbar-nav ml-auto" v-if="!currentUser">
-        <li class="nav-item">
-          <router-link to="/signup">
-            <font-awesome-icon icon="user-plus" /> Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <form @submit.prevent="logIn">
-            <label for="username">username : </label>
-            <input type="text" id="username" v-model="username"><br>
-
-            <label for="password"> password : </label>
-            <input type="password" id="password" v-model="password"><br>
-
-            <input type="submit" value="logIn">
-          </form>
-        </li>
-      </div>
-      로그인 시
-      <div class="navbar-nav ml-auto" v-if="currentUser">
-        <li class="nav-item">
-          <router-link to="/profile">
-            <font-awesome-icon icon="user" />
-            {{currentUser.username}}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a href class="nav-link" @click="logout">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
-          </a>
-        </li>
-      </div>
-    </ul> -->
-
   </div>
 </template>
 
@@ -74,7 +37,7 @@ export default {
     }
   },
   mounted() {
-    this.startCursor()
+    if(!this.login){this.startCursor()}
   },
   
   computed: {
@@ -90,6 +53,14 @@ export default {
     login() {
       const username = this.username
       const password = this.password
+
+      if (!username) {
+        alert('ID 입력해주세요')
+        return
+      } else if (!password){
+        alert('비밀번호 입력해주세요')
+        return
+      }
 
       const payload = {
         username, password
