@@ -22,6 +22,7 @@ from common.todaymovie import get_today_movie_list
 from common.detail import movie_detail_url
 from datetime import date, datetime, timedelta
 import json
+import pandas as pd
 
 
 def delete_yesterday():
@@ -109,6 +110,11 @@ def today_json_to_db():
 #             serializer.save()
 #             # serializer.save(user=request.user)
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+def make_df(li):
+    df = pd.DataFrame(data=li, columns=li[0].keys())
+    return df
+
 
 @api_view(['GET'])
 def best_movie_list(request):
@@ -319,9 +325,17 @@ def predict_movie(request):
         print(actor1[0].actor_name)
         print(actor1[0].actor_popularity)
         print(actor1[0].actor_revenue)
-        check_all.append(ActorList.objects.filter(actor_name=an))
+        check_all.append({
+            "actor_id": actor1[0].actor,
+            "actor_name": actor1[0].actor_name,
+            "actor_popularity": actor1[0].actor_popularity,
+            "actor_revenue": actor1[0].actor_revenue,
+        })
     print(check_all)
-    serializer = ActorListSerializer(check_all, many=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    df_check = make_df(check_all)
+    print(df_check)
+    # serializer = ActorListSerializer(check_all, many=True)
+    # if serializer.is_valid():
+    # serializer.save()
+    # return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
