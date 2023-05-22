@@ -314,11 +314,12 @@ def comment_create(request, movie_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     
-
+@api_view(['GET'])
 def predict_movie(request):
     # actors = request.data['actors']
     actors = ['Victoria Garcia-Kelleher', 'Jordan Blair Mangold Brown']
     check_all = []
+    answer = []
     for an in actors:
         actor1 = ActorList.objects.filter(actor_name=an)
         print(actor1[0].actor)
@@ -331,9 +332,16 @@ def predict_movie(request):
             "actor_popularity": actor1[0].actor_popularity,
             "actor_revenue": actor1[0].actor_revenue,
         })
+        answer.append(int(actor1[0].actor_revenue))
     print(check_all)
     df_check = make_df(check_all)
     print(df_check)
+    print(answer)
+    answer = sum(answer)/len(answer)
+    new_data = {
+        "predict_revenue": int(answer),
+    }
+    return Response(new_data)
     # serializer = ActorListSerializer(check_all, many=True)
     # if serializer.is_valid():
     # serializer.save()

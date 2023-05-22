@@ -12,7 +12,7 @@ urlpatterns = [
     path('movies/<int:movie_pk>/comments/', views.comment_create), # 영화에 댓글 추가
     path('comments/', views.comment_list), # 전체 댓글
     path('comments/<int:movie_pk>/', views.comment_detail), # 영화별 댓글 뭐 삭제 변경이런거
-    path('movies/predicts/', views.predict_movie), #영화 예측
+    path('movies/predicts/', views.predict_movie, name='predicts'), #영화 예측
     # # 필수 작성
     # path('schema/', SpectacularAPIView.as_view(), name='schema'),
     # # optional UI

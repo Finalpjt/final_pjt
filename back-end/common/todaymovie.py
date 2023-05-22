@@ -37,7 +37,12 @@ def get_today_movie_list():
 
         search_movie_res = requests.get(search_movie_url).text
         search_movie_data = json.loads(search_movie_res)
-        search_movie = search_movie_data['results'][0]
+        print(search_movie_data['results'])
+        print('check -----------------------------------------')
+        if search_movie_data['results']:
+            search_movie = search_movie_data['results'][0]
+        else:
+            continue
         
         today_movie_detail_list.append(search_movie)
     
@@ -122,7 +127,8 @@ def get_today_movie_list():
     df_today_genres = df_today_genres.explode("genre_ids", ignore_index=True)
     df_today_movies = df_today_movies.drop(columns = ['genre_ids'])
     
-    
+    print(df_today_movies)
+    print('check directory')
     df_today_movies.to_json(r'./movies/fixtures/{}_movie.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     df_today_video.to_json(r'./movies/fixtures/{}_video.json'.format(today), force_ascii=False, orient = 'records', indent=4)
     df_today_genres.to_json(r'./movies/fixtures/{}_genre.json'.format(today), force_ascii=False, orient = 'records', indent=4)
@@ -200,3 +206,5 @@ def get_today_movie_list():
     
     
     return df_today_movies
+
+# print(get_today_movie_list())

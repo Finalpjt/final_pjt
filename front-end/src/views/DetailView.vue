@@ -1,37 +1,30 @@
 <template>
   <div>
     <h1>Detail</h1>
+    <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" alt="" srcset="">
     <p>글 번호 : {{ movie?.movie_id }}</p>
-    <p>제목 : {{ movie?.original_language }}</p>
+    <p>제목 : {{ movie?.title }}</p>
     <p>장르 : {{ movie?.genres }}</p>
     <p>작성시간 : {{ movie?.created_at }}</p>
     <p>수정시간 : {{ movie?.updated_at }}</p>
-    <!-- <Comments 
-          id=""/> -->
-    <!-- {{allmovie}} -->
-    {
-    "movie_id": 385687,
-    "adult": false,
-    "original_language": "en",
-    "genres": [
-        {
-            "genre_ids": "Action"
-        },
-        {
-            "genre_ids": "Crime"
-        }
-    ]
-    }
+    {{movie}}
+
+    <MovieComments/>
+    <MovieCommentsList/>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import ArticleList from '@/components/ArticleList.vue'
+import MovieComments from '@/components/MovieComments.vue'
+import MovieCommentsList from '@/components/MovieCommentsList.vue'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'DetailView',
+  components: {
+    MovieComments, MovieCommentsList
+  },
   data() {
     return {
       // allmovie: this.$store.state.movie,

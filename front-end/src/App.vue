@@ -10,6 +10,10 @@
     profile
     </router-link>
     |
+    <router-link to="/predict">
+    predict revenue
+    </router-link>
+    |
     <router-link to="/main">
     main page
     </router-link>
@@ -42,7 +46,7 @@ export default {
     },
   },
   mounted() {
-    this.startCursor()
+    // this.startCursor()
   },
   methods: {
     logout () {
