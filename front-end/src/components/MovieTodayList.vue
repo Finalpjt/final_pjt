@@ -1,19 +1,19 @@
 <template>
   <div class="movie-list">
     <h3>Movie List</h3>
-    <MovieListItem 
+    <MovieTodayListItem 
     v-for="movie in Todaymovies" :key="movie.id" :movie="movie"
     />
   </div>
 </template>
 
 <script>
-import MovieListItem from '@/components/MovieListItem'
+import MovieTodayListItem from '@/components/MovieTodayListItem'
 
 export default {
-  name: 'MovieList',
+  name: 'MovieTodayList',
   components: {
-    MovieListItem,
+    MovieTodayListItem,
   },
   computed: {
     Todaymovies() {

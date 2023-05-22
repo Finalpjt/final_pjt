@@ -1,18 +1,18 @@
 <template>
   <div>
     <h1>Main Page</h1>
-    <MovieList />
+    <MovieTodayList />
     <hr>
   </div>
 </template>
 
 <script>
-import MovieList from '@/components/MovieList.vue'
+import MovieTodayList from '@/components/MovieTodayList.vue'
 
 export default {
   name: 'MainView',
   components: {
-    MovieList,
+    MovieTodayList,
   },
   
   computed:{

@@ -50,8 +50,9 @@ export default new Vuex.Store({
     },
     SEARCH(state, movies) {
       state.search_movies = movies
-      router.go(router.currentRoute)
-      router.push({name: 'SearchViewe'})
+      // router.go(router.currentRoute)
+      router.push({name: 'SearchView'})
+      location.reload(true)
        // 현재 위치 새로고침
     }
   },
@@ -73,7 +74,7 @@ export default new Vuex.Store({
     getMovies(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/today/`,
+        url: `${API_URL}/api/v1/movies/`,
       })
         .then((res) => {
         // console.log(res, context)
