@@ -14,9 +14,9 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
 from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
-from .serializers import MovieDetailSerializer
+from .serializers import MovieDetailSerializer, ActorListSerializer
 from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated, MovieDetail
-from .models import MovieDetail
+from .models import MovieDetail, ActorList
 
 from common.todaymovie import get_today_movie_list
 from common.detail import movie_detail_url
@@ -307,3 +307,21 @@ def comment_create(request, movie_pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+    
+
+def predict_movie(request):
+    # actors = request.data['actors']
+    actors = ['Victoria Garcia-Kelleher', 'Jordan Blair Mangold Brown']
+    check_all = []
+    for an in actors:
+        actor1 = ActorList.objects.filter(actor_name=an)
+        print(actor1[0].actor)
+        print(actor1[0].actor_name)
+        print(actor1[0].actor_popularity)
+        print(actor1[0].actor_revenue)
+        check_all.append(ActorList.objects.filter(actor_name=an))
+    print(check_all)
+    serializer = ActorListSerializer(check_all, many=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

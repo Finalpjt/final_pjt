@@ -81,6 +81,10 @@ class MovieDetail(models.Model):
 
 class ActorList(models.Model):
     actor = models.IntegerField(primary_key=True)
+    actor_id = models.IntegerField()
+    actor_name = models.CharField(max_length=1000)
+    actor_popularity = models.DecimalField(max_digits=1000000, decimal_places=4, default = 0)
+    actor_revenue = models.DecimalField(max_digits=1000000, decimal_places=4, default = 0)
     
 
 class Comment(models.Model):

@@ -8,8 +8,10 @@ def movie_detail_url(movie_id):
     res = requests.get(url).text
     data = json.loads(res)
     # print(data)
-    data['backdrop_path'] = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
-    data['poster_path'] = 'https://image.tmdb.org/t/p/original' + data['poster_path']
+    if data['backdrop_path']:
+        data['backdrop_path'] = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
+    if data['poster_path']:
+        data['poster_path'] = 'https://image.tmdb.org/t/p/original' + data['poster_path']
     for idx, genre in enumerate(data['genres']):
         data['genres'][idx] = genre['name']
     new_data = [

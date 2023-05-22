@@ -1,4 +1,3 @@
-
 import json
 import pandas as pd
 import requests
@@ -33,7 +32,8 @@ def actor_list(movie_id, new_data={}):
     check_revenue = movie_detail_url(movie_id)
     movie_revenue = check_revenue[0]['revenue'] # 영화의 수익
     # print(movie_revenue)
-    
+    if not movie_revenue:
+        return new_data
     
     for data in data_credit['cast']:
         if data['id'] not in new_data:
