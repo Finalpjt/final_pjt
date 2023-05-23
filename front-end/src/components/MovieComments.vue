@@ -1,10 +1,14 @@
 <template>
   <div class="">
     <h3>Comments Create</h3>
+      {{ user }}<br>
+      {{ username }}<br>
+      {{ email }}<br>
+      <br><br><br><br>
       <label for="comment">댓글 : </label>
       <input @keyup.enter="commentCreate" ref="cursor_comment" type="text" id="comment" v-model="comment">
       <input @click="commentCreate" type="submit" value="확인">
-
+      
     <!-- <p
     v-for="comment in comments" :key="comment.id" :comment="comment"
     ></p> -->
@@ -23,9 +27,15 @@ export default {
   data() {
     return {
       comment: null,
+      user: this.$store.state.user,
+      username: this.$store.state.username,
+      email: this.$store.state.email,
+      // nickname: this.$store.state.nickname
     }
   },
-
+  created() {
+    this.getUser()
+  },
   methods: {
     commentCreate(){
       const content = this.comment
@@ -54,6 +64,9 @@ export default {
     },
     startCursor() {
       this.$refs.cursor_comment.focus()
+    },
+    getUser() {
+      this.$store.dispatch('getUser')
     },
   }
 }

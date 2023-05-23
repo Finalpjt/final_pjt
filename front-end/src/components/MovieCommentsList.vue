@@ -1,6 +1,8 @@
 <template>
   <div class="">
+    {{ username }}
     <h3>Comments</h3>
+
     <div v-for="comment in comments"
     :key="comment.id" :comment="comment"
     >{{ comment }}
@@ -21,17 +23,23 @@ export default {
   data() {
     return {
       comments: null,
-			comment: null
+			comment: null,
+      user: this.$store.state.user,
+      username: this.$store.state.username,
+      email: this.$store.state.email,
+      // nickname: this.$store.state.nickname
     }
   },
 
 	created(){
-		this.getComments()
+		this.getComments(),
+    this.getUser()
 	},
 
   methods: {
     getComments(){
-			const movie_id = this.$route.params.id
+			const movie_id = this.$route.params.
+      console.log(this.$store.state.user,)
 			
       axios({
         method: 'get',
@@ -63,6 +71,9 @@ export default {
         .catch((err) => {
         console.log(err)
         })
+    },
+    getUser() {
+      this.$store.dispatch('getUser')
     },
   }
 }

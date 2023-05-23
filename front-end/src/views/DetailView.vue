@@ -29,9 +29,13 @@ export default {
     return {
       // allmovie: this.$store.state.movie,
       movie: null,
+      user: this.$store.state.user,
+      username: this.$store.state.username,
+      email: this.$store.state.email,
     }
   },
   created() {
+    this.getUser(),
     this.getMovieDetail()
     // console.allmovie
   },
@@ -48,7 +52,10 @@ export default {
       .catch((err) => {
         console.log(err)
       })
-    }
+    },
+    getUser() {
+      this.$store.dispatch('getUser')
+    },
   }
 }
 </script>

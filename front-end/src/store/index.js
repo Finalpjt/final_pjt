@@ -19,7 +19,11 @@ export default new Vuex.Store({
     today_movies:[],
     token: null,
     userdata: null,
-    search_movies: []
+    search_movies: [],
+    user: null,
+    username: null,
+    email: null,
+    nickname: null,
   },
   getters: {
     isLogin(state) {
@@ -45,7 +49,12 @@ export default new Vuex.Store({
       // location.reload(true)
     },
     LOG_OUT(state) {
+      state.user = null
+      state.username = null
+      state.email = null
+      // state.nickname = null
       state.token = null
+      
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       location.reload(true)
     },
@@ -168,23 +177,27 @@ export default new Vuex.Store({
         })
       .catch((err) => console.log(err))
     },
-    // pickActor(context, payload) {
-    //   const actor = payload.pick_actor
-    //   console.log(actor)
-    //   axios({
-    //     method: 'GET',
-    //     url: `http://127.0.0.1:8000/api/v1/movies/predicts/`,
-    //     //url 1페이지만 갖고 오도록 해놓음
-    //     data: {
-    //       actor
-    //     }
-    //   })
-    //   .then((res) => {
-    //     // console.log(res.data.results)
-    //     context.commit('SEARCH', res.data.results)
-    //     })
-    //   .catch((err) => console.log(err))
-    // }
+    getUser() {
+      const token = this.state.token
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/user/`,
+        headers: {
+        Authorization: `Token ${token}`
+        }
+      })
+      .then((res) => {
+        // console.log(token)
+        this.state.user = res.data
+        this.state.username = res.data.username
+        this.state.email = res.data.email
+        // this.$store.state.nickname = res.data.email
+      })
+      .catch((err) => {
+        console.log(err)
+        // router.push({name : 'HomeView'})
+      })
+    },
   },
   modules: {
   }

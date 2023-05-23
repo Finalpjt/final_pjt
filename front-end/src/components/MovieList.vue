@@ -1,9 +1,9 @@
 <template>
   <div class="">
-    <h3>Movie List</h3>
+    <h3>Movie Page : {{ page }}</h3>
 		<div>
 			<button @click="result(page=1)"> first </button>
-			<button @click="unit(page-10)"> | </button>
+			<button @click="unitdown(page-10)"> | </button>
 			<button v-if="page==486" @click="result(page-2)"> {{ page-2 }} </button>
 			<button v-if="page!=1 & page-1!=486" @click="result(page-1)"> {{ page-1 }} </button>
 			<!-- <button v-if="page-1!=486" @click="result(page-1)"> {{ page-1 }} </button> -->
@@ -11,7 +11,7 @@
 			<button v-if="page!=486" @click="result(page+1)"> {{ page+1 }}</button>
 			<button v-if="page==1" @click="result(page+2)"> {{ page+2 }} </button>
 			
-			<button @click="unit(page+10)"> | </button>
+			<button @click="unitup(page+10)"> | </button>
 			<button @click="result(page=486)"> end </button>
 
 		</div>
@@ -62,10 +62,16 @@ export default {
   },
 	
 	methods: {
-		unit(page) {
+		unitdown(page) {
 			if(this.page <= 11){
 				this.page=1
-			}else if(this.page >= 476){
+			}else{
+				this.page=page
+			}
+			this.pagination()
+		},
+		unitup(page) {
+			if(this.page >= 476){
 				this.page=486
 			}else{
 				this.page=page

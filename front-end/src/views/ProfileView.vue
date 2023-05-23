@@ -5,6 +5,7 @@
     <br>
     사용자 이메일 : {{ email }}
     <br>
+    <!-- 사용자 닉네임 : {{ nickname }} -->
     <router-link to="/profilechange">changepassword</router-link>
   </div>
 </template>
@@ -19,7 +20,8 @@ export default {
     return {
       user: null,
       username: null,
-      email: null
+      email: null,
+      // nickname: null,
     }
   },
   created() {
@@ -40,6 +42,7 @@ export default {
         this.user = res.data
         this.username = res.data.username
         this.email = res.data.email
+        // this.nickname = res.data.nickname
       })
       .catch((err) => {
         console.log(err)
