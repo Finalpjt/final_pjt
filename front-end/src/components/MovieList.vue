@@ -10,7 +10,7 @@
 
 		</div>
         <br><br>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
     <div v-for="movie in AllMovies" :key="movie.id" :movie="movie">
         <!-- {{movie.title}} -->
 			<router-link :to="{

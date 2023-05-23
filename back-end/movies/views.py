@@ -23,6 +23,7 @@ from common.detail import movie_detail_url
 from datetime import date, datetime, timedelta
 import json
 import pandas as pd
+from common.cosine import preprocess
 
 
 def delete_yesterday():
@@ -301,8 +302,6 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
 
-    
-
 
 @api_view(['POST'])
 def comment_create(request, movie_pk):
@@ -342,8 +341,32 @@ def predict_movie(request):
         "predict_revenue": int(answer),
     }
     return Response(new_data)
-    # serializer = ActorListSerializer(check_all, many=True)
-    # if serializer.is_valid():
-    # serializer.save()
-    # return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
+@api_view(['GET'])
+def recommend_movie(request):
+    # movie = request.data['movie']
+    movie = ['이블 데드 라이즈']
+    recommend_list = []
+    df = preprocess(movie[0])
+    # feature_name = df.columns
+    for idx in range(len(df)):
+        # recommend_list.append(
+        #     dict(df.iloc[idx])
+        # )
+        movies = AllMovie.objects.filter(title=df[idx])
+        print(movies[0])
+        recommend_list.append(movies[0])
+    print(recommend_list)
+    serializer = AllMovieListSerializer(recommend_list, many=True)
+    for iidx in range(len(serializer.data)):
+        genre_list, video_list = [], []
+        for genre in dict(serializer.data[iidx])['genres']:
+            genre_list.append(dict(genre)['genre_ids'])
+        for idx, i in enumerate(genre_list):
+            serializer.data[iidx]['genres'][idx] = i
+            
+        for video in dict(serializer.data[iidx])['videos']:
+            video_list.append(dict(video))
+        for v_idx, v in enumerate(video_list):
+            serializer.data[iidx]['videos'][v_idx] = v['video']
+    return Response(serializer.data)
