@@ -61,8 +61,8 @@ export default new Vuex.Store({
     SEARCH(state, movies) {
       state.search_movies = movies
       // router.go(router.currentRoute)
-      // router.push({name: 'SearchView'})
-      location.reload(true)
+      router.push({name: 'SearchView'})
+      // location.reload(true)
        // 현재 위치 새로고침
     }
   },

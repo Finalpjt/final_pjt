@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Main Page</h1>
-    <MovieBestList/>
     <MovieList />
+    <MovieBestList/>
     <MovieTodayList />
     <hr>
   </div>

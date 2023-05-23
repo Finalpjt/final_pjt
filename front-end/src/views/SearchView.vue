@@ -39,8 +39,8 @@
     methods: {
       getSearchMovies() {
         if (this.isLogin) {
-            console.log(this.$store.state.search_movies)
-        //   this.$store.dispatch('getSearchMovies')
+            // console.log(this.$store.state.search_movies)
+          // this.$store.dispatch('getSearchMovies')
         } else {
           alert('로그인이 필요한 페이지입니다...')
         }

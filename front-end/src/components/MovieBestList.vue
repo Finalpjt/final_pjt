@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h3>Movie List</h3>
+    <h3>Best Movie List</h3>
 
 		<br><br>
 		<div class="row row-cols-1 row-cols-md-5 g-4">
@@ -45,9 +45,9 @@ export default {
     //   return this.$store.state.today_movies
     // }
   },
-	// created() {
-  //     BestMovie()
-  //   },
+	created() {
+      this.BestMovie()
+    },
 
 	methods: {
 		BestMovie() {
