@@ -1,9 +1,13 @@
 <template>
   <div class="movie-list">
-    <h3>Movie List</h3>
+    <br><br>
+    <h3>Today Movie List</h3>
+    <br><br>
+    <div class="row row-cols-1 row-cols-md-5 g-4">
     <MovieTodayListItem 
     v-for="movie in Todaymovies" :key="movie.id" :movie="movie"
     />
+    </div>
   </div>
 </template>
 

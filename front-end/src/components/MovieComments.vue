@@ -30,12 +30,13 @@ export default {
     commentCreate(){
       const content = this.comment
       const id = this.$route.params.id
-      const movie = id
+      console.log(id)
+      const movie_id = id
       axios({
         method: 'post',
         url: `${API_URL}/api/v1/movies/${ id }/comments/`,
         data: {
-          content, movie
+          content, movie_id
         },
         // headers: {
         //   Authorization: `Token ${this.state.token}`

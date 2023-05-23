@@ -9,14 +9,28 @@
 			<button v-if="page-1==0" @click="result(page+2)"> {{ page+2 }} </button>
 
 		</div>
-    <div v-for="movie in AllMovies" :key="movie.id" :movie="movie">{{movie.title}}
+		<br><br>
+		<div class="row row-cols-1 row-cols-md-5 g-4">
+    <div v-for="movie in AllMovies" :key="movie.id" :movie="movie">
+			<!-- {{movie.title}} -->
 			<router-link :to="{
       name: 'DetailView',
       params: {id: movie.movie_id }}">
-      <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" alt="" srcset="">
-			DETAIL
+			<div class="col">
+        <div class="card h-100">
+            <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" class="card-img-top" alt="" srcset="">
+            <div class="card-body h-100">
+                <h5 class="card-title">
+                    {{ movie.title }}
+                </h5>
+                <p class="card-text">
+                    {{ movie.overview }}
+                </p>
+            </div>
+        </div>
+        </div>
       </router-link>
-			{{movie}}
+		</div>
 		</div>
   </div>
 </template>
@@ -27,19 +41,20 @@ const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'MovieList',
-  components: {
-  },
+
 	data() {
 		return {
 			page:1,
 			AllMovies:null
 		}
 	},
+
   computed: {
     // Todaymovies() {
     //   return this.$store.state.today_movies
     // }
   },
+	
 	methods: {
 		first() {
 			this.page = 1
