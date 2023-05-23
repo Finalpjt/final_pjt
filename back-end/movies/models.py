@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from accounts.models import Accounts
 # Create your models here.
 
 
@@ -88,7 +88,11 @@ class ActorList(models.Model):
     
 
 class Comment(models.Model):
-    movie_id = models.ForeignKey(AllMovie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(AllMovie, on_delete=models.CASCADE)
+    comment_id = models.AutoField(primary_key=True)
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    star_score = models.FloatField()
+    user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    user_profile_img = models.ImageField(upload_to='comment_profile_images/', null=True)
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)

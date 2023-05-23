@@ -313,7 +313,7 @@ def comment_create(request, movie_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def predict_movie(request):
     # actors = request.data['actors']
     actors = ['Victoria Garcia-Kelleher', 'Jordan Blair Mangold Brown']
@@ -336,6 +336,8 @@ def predict_movie(request):
     df_check = make_df(check_all)
     print(df_check)
     print(answer)
+    if not answer:
+        return Response(0)
     answer = sum(answer)/len(answer)
     new_data = {
         "predict_revenue": int(answer),
@@ -345,7 +347,7 @@ def predict_movie(request):
 @api_view(['GET'])
 def recommend_movie(request):
     # movie = request.data['movie']
-    movie = ['이블 데드 라이즈']
+    movie = ['어벤져스']
     recommend_list = []
     df = preprocess(movie[0])
     # feature_name = df.columns
