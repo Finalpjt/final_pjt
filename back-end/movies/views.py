@@ -25,6 +25,7 @@ import json
 import pandas as pd
 from common.cosine import preprocess
 
+from django.contrib.auth import get_user_model
 
 def delete_yesterday():
     movie_list = TodayMovie.objects.all()
@@ -307,9 +308,13 @@ def comment_detail(request, comment_pk):
 def comment_create(request, movie_pk):
     # movie = Movie.objects.get(pk=Movie_pk)
     movie = get_object_or_404(AllMovie, pk=movie_pk)
+    user = get_object_or_404(get_user_model(), pk = request.user.pk)
+    # comment = CommentSerializer()
     serializer = CommentSerializer(data=request.data)
+    # print(serializer)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        serializer.save(user=user, movie = movie)
+        print(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     
@@ -339,10 +344,10 @@ def predict_movie(request):
     if not answer:
         return Response(0)
     answer = sum(answer)/len(answer)
-    new_data = {
-        "predict_revenue": int(answer),
-    }
-    return Response(new_data)
+    # new_data = {
+    #     "predict_revenue": int(answer),
+    # }
+    return Response(int(answer))
 
 @api_view(['GET'])
 def recommend_movie(request):

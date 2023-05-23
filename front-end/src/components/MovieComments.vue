@@ -30,12 +30,15 @@ export default {
     commentCreate(){
       const content = this.comment
       const id = this.$route.params.id
-      const movie = id
+      console.log(id)
+      const movie_id = id
+      const user = this.$route.params.user
+      console.log(user)
       axios({
         method: 'post',
         url: `${API_URL}/api/v1/movies/${ id }/comments/`,
         data: {
-          content, movie
+          content, movie_id, user,
         },
         // headers: {
         //   Authorization: `Token ${this.state.token}`
@@ -44,7 +47,7 @@ export default {
         .then((res) => {
           
           console.log(res)
-          // this.$router.push(`${API_URL}/api/v1/movies/${ id }/comments/`)
+        //   this.$router.push(`${API_URL}/api/v1/movies/${ id }/comments/`)
           // location.reload(true)
         })
         .catch((err) => {

@@ -5,17 +5,17 @@
     <div v-if="this.isLogin">
       isLogin.
       <br>
-      <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
-      <button @click="search()">search</button>
+      <!-- <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
+      <button @click="search()">search</button> -->
     </div>
     <div v-if="!this.isLogin">
       <label for="username">사용자명 : </label>
-      <input @keyup.enter="Cursor_password" ref="cursor" type="text" id="username" v-model="username"><br>
+      <input @keyup.enter="login()" ref="cursor" type="text" id="username" v-model="username"><br>
 
       <label for="password"> 비밀번호 : </label>
-      <input @keyup.enter="login" ref="cursor_password" type="password" id="password" v-model="password"><br>
+      <input @keyup.enter="login()" ref="cursor_password" type="password" id="password" v-model="password"><br>
 
-      <input @click="login" type="submit" value="확인">
+      <input @click="login()" type="submit" value="확인">
       <router-link v-if="!isLogin" to="/signup">
       회원가입
       </router-link>
@@ -68,19 +68,19 @@ export default {
 
       this.$store.dispatch('login', payload)
     },
-    search() {
-      const searchkey = this.searchkey
-      const payload = {
-        searchkey
-      }
-      this.$store.dispatch('search', payload)
-    },
-    startCursor() {
-      this.$refs.cursor.focus()
-    },
-    Cursor_password() {
-      this.$refs.cursor_password.focus()
-    }
+    // search() {
+    //   const searchkey = this.searchkey
+    //   const payload = {
+    //     searchkey
+    //   }
+    //   this.$store.dispatch('search', payload)
+    // },
+    // startCursor() {
+    //   this.$refs.cursor.focus()
+    // },
+    // Cursor_password() {
+    //   this.$refs.cursor_password.focus()
+    // }
   }
 }
 </script>

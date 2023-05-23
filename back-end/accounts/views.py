@@ -30,3 +30,12 @@ def user_nickname(request):
     users = get_list_or_404(Accounts)
     serialized_users = UserNicknameSerializer(users, many=True)
     return Response(serialized_users.data)
+
+@api_view(['POST'])
+def login(request):
+    print(request.data)
+
+
+# @api_view(['POST'])
+# def logout(request):
+#     pass

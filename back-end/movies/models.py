@@ -91,7 +91,7 @@ class Comment(models.Model):
     movie = models.ForeignKey(AllMovie, on_delete=models.CASCADE)
     comment_id = models.AutoField(primary_key=True)
     content = models.TextField()
-    star_score = models.FloatField()
+    star_score = models.FloatField(null=True)
     user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
     user_profile_img = models.ImageField(upload_to='comment_profile_images/', null=True)
     likes = models.PositiveIntegerField(default=0)
