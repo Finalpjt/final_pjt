@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Detail</h1>
-    <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" alt="" srcset="">
+    <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${ movie.poster_path }`" alt="" srcset="">
     <p>글 번호 : {{ movie?.movie_id }}</p>
     <p>제목 : {{ movie?.title }}</p>
     <p>장르 : {{ movie?.genres }}</p>

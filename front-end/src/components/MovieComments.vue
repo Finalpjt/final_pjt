@@ -30,7 +30,7 @@ export default {
     commentCreate(){
       const content = this.comment
       const id = this.$route.params.id
-      console.log(id)
+      // console.log(id)
       const movie_id = id
       axios({
         method: 'post',

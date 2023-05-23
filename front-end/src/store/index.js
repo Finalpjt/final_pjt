@@ -132,6 +132,7 @@ export default new Vuex.Store({
       })
     },
     login(context, payload) {
+      console.log(payload);
       const username = payload.username
       const password = payload.password
       axios({
@@ -142,11 +143,12 @@ export default new Vuex.Store({
         } 
       })
         .then((res) => {
+        console.log(res.data.key)
         context.commit('SAVE_TOKEN', res.data.key)
         })
-      .catch((err) => 
-      console.log(err),
-      location.reload(true)
+        .catch((err) => 
+        console.log(err),
+        location.reload(true)
       )
     },
     logout(context){
