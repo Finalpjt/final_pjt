@@ -14,7 +14,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import AllMovieListSerializer, AllVideoListSerializer, AllGenreSerializer, CommentSerializer
 from .serializers import TodayMovieListSerializer, TodayVideoListSerializer, TodayGenreSerializer
-from .serializers import MovieDetailSerializer, ActorListSerializer
+from .serializers import MovieDetailSerializer, ActorListSerializer, MovieSerializer
 from .models import AllGenre, TodayGenre, AllMovie, AllRelatedVideo, TodayMovie, TodayRelatedVideo, Comment, TodayMovieCreated, MovieDetail
 from .models import MovieDetail, ActorList
 
@@ -24,6 +24,7 @@ from datetime import date, datetime, timedelta
 import json
 import pandas as pd
 from common.cosine import preprocess
+from django.http import JsonResponse
 
 from django.contrib.auth import get_user_model
 
@@ -228,7 +229,7 @@ def movie_detail(request, movie_id):
     for md in movie_detail:
         movies = MovieDetail()
         movies.movie_id = md['movie_id']
-        # movies.movie = md['movie_id']
+        movies.title = md['title']
         movies.budget = md['budget']
         movies.revenue = md['revenue']
         movies.tagline = md['tagline']
@@ -276,12 +277,15 @@ def today_movie_detail(request, movie_id):
 
 
 @api_view(['GET'])
-def comment_list(request):
+def comment_list(request, movie_id):
     if request.method == 'GET':
         # comments = Comment.objects.all()
-        comments = get_list_or_404(Comment)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+        movie = get_object_or_404(AllMovie, pk=movie_id)
+        print(movie)
+        # comments = get_list_or_404(Comment, )
+        serializer = MovieSerializer(movie)
+        print(serializer.data['comment_set'])
+        return Response(serializer.data['comment_set'])
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -308,7 +312,10 @@ def comment_detail(request, comment_pk):
 def comment_create(request, movie_pk):
     # movie = Movie.objects.get(pk=Movie_pk)
     movie = get_object_or_404(AllMovie, pk=movie_pk)
+    print(movie)
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
+    print(user)
+    print(request.user)
     # comment = CommentSerializer()
     serializer = CommentSerializer(data=request.data)
     # print(serializer)
@@ -320,12 +327,14 @@ def comment_create(request, movie_pk):
     
 @api_view(['GET', 'POST'])
 def predict_movie(request):
-    # actors = request.data['actors']
-    actors = ['Victoria Garcia-Kelleher', 'Jordan Blair Mangold Brown']
+    actors = request.data['actors']
+    # actors = ['Victoria Garcia-Kelleher', 'Jordan Blair Mangold Brown']
     check_all = []
     answer = []
     for an in actors:
         actor1 = ActorList.objects.filter(actor_name=an)
+        if not actor1:
+            continue
         print(actor1[0].actor)
         print(actor1[0].actor_name)
         print(actor1[0].actor_popularity)
@@ -338,8 +347,8 @@ def predict_movie(request):
         })
         answer.append(int(actor1[0].actor_revenue))
     print(check_all)
-    df_check = make_df(check_all)
-    print(df_check)
+    # df_check = make_df(check_all)
+    # print(df_check)
     print(answer)
     if not answer:
         return Response(0)
@@ -377,3 +386,14 @@ def recommend_movie(request):
         for v_idx, v in enumerate(video_list):
             serializer.data[iidx]['videos'][v_idx] = v['video']
     return Response(serializer.data)
+
+
+def movie_likes(request, movie_id):
+    # try:
+    movie = AllMovie.objects.get(pk=movie_id)
+    movie.like_users.add(request.user)
+    serializer = AllMovieListSerializer(movie)
+    print(serializer.data)
+    return JsonResponse(serializer.data)
+    # except Movie.DoesNotExist:
+    #     return Response({'error': '영화를 찾을 수 없습니다.'}, status=404)

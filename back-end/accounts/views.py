@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import Accounts
 from .serializers import UserListSerializer, UserSerializer, UserNicknameSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
+from collections import OrderedDict
 
 @api_view(['GET'])
 def user_list(request):
@@ -14,10 +15,11 @@ def user_list(request):
 
 @api_view(['GET', 'PATCH'])
 # @renderer_classes([JSONRenderer])
-def user_detail(request, id):
-    user = get_object_or_404(Accounts, id=id)
+def user_profile(request, username):
+    user = get_object_or_404(Accounts, username=username)
     if request.method == 'GET':
         serialized_user = UserSerializer(user)
+        print(serialized_user.data)
         return Response(serialized_user.data)
     elif request.method == 'PATCH':
         serialized_user = UserSerializer(user, data=request.data)

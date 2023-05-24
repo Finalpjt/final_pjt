@@ -31,15 +31,16 @@ export default {
 
   methods: {
     getComments(){
+        const id = this.$route.params.id
 			// const movie_id = this.$route.params.id
 			
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/comments/`,
+        url: `${API_URL}/api/v1/movies/${ id }/allcomments/`,
       })
         .then((res) => {
-					this.comments = res.data
-					// console.log(res.data)
+            this.comments = res.data
+            console.log(res.data)
         })
         .catch((err) => {
         console.log(err)

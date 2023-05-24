@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import Accounts
+from movies.models import AllMovie
+from movies.serializers import AllMovieListSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.contrib.auth import get_user_model
 
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,9 +11,10 @@ class UserListSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'nickname', 'profile_img'] 
 
 class UserSerializer(serializers.ModelSerializer):
+    like_movies = AllMovieListSerializer(many = True, read_only=True, source='allmovie_set')
     class Meta:
-        model = Accounts
-        fields = ['nickname', 'email', 'profile_img'] 
+        model = get_user_model()
+        fields = ['like_movies', 'username','nickname', 'email', 'profile_img', 'genres'] 
         # exclude = ['username', 'password', 'followings']
 
 class UserNicknameSerializer(serializers.ModelSerializer):

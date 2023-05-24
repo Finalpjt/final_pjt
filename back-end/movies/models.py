@@ -20,6 +20,7 @@ class AllMovie(models.Model):
     vote_average = models.DecimalField(max_digits=10, decimal_places=3)
     vote_count = models.IntegerField(default=0)
     eng_title = models.CharField(max_length=500)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
 class AllGenre(models.Model):
     # genre = models.AutoField(primary_key=True)
@@ -76,6 +77,7 @@ class MovieDetail(models.Model):
     poster_path = models.URLField(null=True)
     release_date = models.DateField(null=True)
     runtime = models.IntegerField(null=True)
+    title = models.CharField(max_length=255)
     vote_average = models.DecimalField(max_digits=10, decimal_places=3, default=0)
     
 
@@ -92,7 +94,7 @@ class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     content = models.TextField()
     star_score = models.FloatField(null=True)
-    user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     user_profile_img = models.ImageField(upload_to='comment_profile_images/', null=True)
     likes = models.PositiveIntegerField(default=0)
     dislikes = models.PositiveIntegerField(default=0)

@@ -30,6 +30,7 @@ def movie_detail_url(movie_id):
             'release_date': data['release_date'],
             'runtime': data['runtime'],
             'vote_average': data['vote_average'],
+            'title': data['title'],
         }
     ]
     return new_data

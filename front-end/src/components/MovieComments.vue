@@ -32,17 +32,17 @@ export default {
       const id = this.$route.params.id
       console.log(id)
       const movie_id = id
-      const user = this.$route.params.user
-      console.log(user)
+    //   const user = this.$route.params.user
+    //   console.log(user)
       axios({
         method: 'post',
         url: `${API_URL}/api/v1/movies/${ id }/comments/`,
         data: {
-          content, movie_id, user,
+          content, movie_id,
         },
-        // headers: {
-        //   Authorization: `Token ${this.state.token}`
-        // }
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
       })
         .then((res) => {
           
