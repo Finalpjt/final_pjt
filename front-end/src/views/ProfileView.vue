@@ -8,17 +8,19 @@
     <!-- 사용자 닉네임 : {{ nickname }} -->
     <router-link to="/PasswordChangeView">changepassword</router-link>
     <div class="row row-cols-1 row-cols-md-5 g-4">
+    <p>dflajflkasjfklasdjldk</p>
     <div
     v-for="like_movie in like_movies" :key="like_movie.id" :movie="movie"
     >
+    <p>2번째</p>
+    {{ like_movie }}
     <div class="card" @click="reload()">
-      
         <router-link :to="{
           name: 'DetailView',
           params: {id: like_movie.movie_id }}">
           <div class="card h-100">
           <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${like_movie.poster_path}`" alt="" srcset="">
-          
+          <p>아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</p>
           </div>
         </router-link>
     
@@ -78,6 +80,7 @@ export default {
           }
         })
           .then((res) => {
+            console.log(res.data)
             console.log('checkcheckcheckcheckcheckcheck')
           console.log(res.data.like_movies)
             console.log('checkcheckcheckcheckcheckcheck')

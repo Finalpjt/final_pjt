@@ -5,7 +5,7 @@ from accounts.models import Accounts
 
 
 class AllMovie(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     adult = models.BooleanField()
     backdrop_path = models.URLField(null=True)
     # genre_ids = models.ForeignKey(AllGenre, on_delete=models.CASCADE)
@@ -20,7 +20,7 @@ class AllMovie(models.Model):
     vote_average = models.DecimalField(max_digits=10, decimal_places=3)
     vote_count = models.IntegerField(default=0)
     eng_title = models.CharField(max_length=500)
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_users')
 
 class AllGenre(models.Model):
     # genre = models.AutoField(primary_key=True)

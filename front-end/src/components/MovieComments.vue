@@ -90,6 +90,7 @@ export default {
       const id = this.$route.params.id
       const movie_id = id
       console.log('체크중')
+      console.log(movie_id)
       axios({
         method: 'post',
         url: `${API_URL}/api/v1/movies/${ movie_id }/comments/`,

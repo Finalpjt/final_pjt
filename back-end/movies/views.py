@@ -224,32 +224,39 @@ def movie_page(request, page_id):
 
 @api_view(['GET'])
 def movie_detail(request, movie_id):
-    movie_detail = movie_detail_url(movie_id)
-    # print(movie_detail)
-    for md in movie_detail:
-        movies = MovieDetail()
-        movies.movie_id = md['movie_id']
-        movies.title = md['title']
-        movies.budget = md['budget']
-        movies.revenue = md['revenue']
-        movies.tagline = md['tagline']
-        movies.adult = md['adult']
-        movies.backdrop_path = md['backdrop_path']
-        movies.homepage = md['homepage']
-        movies.original_title =  md['original_title']
-        movies.overview = md['overview']
-        movies.popularity = md['popularity']
-        movies.poster_path = md['poster_path']
-        movies.release_date = md['release_date']
-        movies.runtime = md['runtime']
-        movies.vote_average = md['vote_average']
-        movies.video = md['videos']
-        movies.save()
-    # print('일단 movieset을 db에 저장함')
-    # print(movies)
-
-    serializer = MovieDetailSerializer(movies)
+    movie_detail = get_object_or_404(AllMovie, pk = movie_id)
+    serializer = AllMovieListSerializer(movie_detail)
     return Response(serializer.data)
+    
+    
+# @api_view(['GET'])
+# def movie_detail(request, movie_id):
+#     movie_detail = movie_detail_url(movie_id)
+#     # print(movie_detail)
+#     for md in movie_detail:
+#         movies = MovieDetail()
+#         movies.movie_id = md['movie_id']
+#         movies.title = md['title']
+#         movies.budget = md['budget']
+#         movies.revenue = md['revenue']
+#         movies.tagline = md['tagline']
+#         movies.adult = md['adult']
+#         movies.backdrop_path = md['backdrop_path']
+#         movies.homepage = md['homepage']
+#         movies.original_title =  md['original_title']
+#         movies.overview = md['overview']
+#         movies.popularity = md['popularity']
+#         movies.poster_path = md['poster_path']
+#         movies.release_date = md['release_date']
+#         movies.runtime = md['runtime']
+#         movies.vote_average = md['vote_average']
+#         movies.video = md['videos']
+#         movies.save()
+#     # print('일단 movieset을 db에 저장함')
+#     # print(movies)
+
+#     serializer = MovieDetailSerializer(movies)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def today_movie_detail(request, movie_id):
@@ -335,13 +342,13 @@ def comment_detail(request, movie_id, comments_pk):
 @api_view(['POST'])
 def comment_create(request, movie_pk):
     movie = get_object_or_404(AllMovie, pk=movie_pk)
-    print(movie)
+    # print(movie)
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
     # print(user)
     # print(request.data) 
     # comment = CommentSerializer()
     serializer = CommentSerializer(data=request.data)
-    # print(serializer)
+    print(serializer)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user = user, movie = movie)
         # print(serializer)
@@ -439,16 +446,16 @@ def profile_recommend_movie(request):
 def movie_likes(request, movie_id):
     # try:
     movie = AllMovie.objects.get(pk=movie_id)
-    # print(movie)
+    print(movie)
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
-    # print(request.user)
+    print(user)
     if movie.like_users.filter(pk = user.pk).exists():
         movie.like_users.remove(user)
     else:
         movie.like_users.add(user)
     
     serializer = AllMovieListSerializer(movie)
-    # print(serializer.data)
+    print(serializer.data)
     return JsonResponse(serializer.data)
     # except Movie.DoesNotExist:
     #     return Response({'error': '영화를 찾을 수 없습니다.'}, status=404)
