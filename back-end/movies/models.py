@@ -79,6 +79,7 @@ class MovieDetail(models.Model):
     runtime = models.IntegerField(null=True)
     title = models.CharField(max_length=255)
     vote_average = models.DecimalField(max_digits=10, decimal_places=3, default=0)
+    video = models.TextField(null=True)
     
 
 class ActorList(models.Model):

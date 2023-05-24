@@ -1,7 +1,6 @@
 <template>
     <div>
       <h1>Search list</h1>
-      카드로 만들어서 들어가도록?
       <hr>
         <div v-for="search_movie in this.search_movies" :key="search_movie.id" :search_movie="search_movie">
             <p><img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${search_movie.poster_path}`" alt="" srcset=""></p>
@@ -40,8 +39,8 @@
     methods: {
       getSearchMovies() {
         if (this.isLogin) {
-            console.log(this.$store.state.search_movies)
-        //   this.$store.dispatch('getSearchMovies')
+            // console.log(this.$store.state.search_movies)
+          // this.$store.dispatch('getSearchMovies')
         } else {
           alert('로그인이 필요한 페이지입니다...')
         }

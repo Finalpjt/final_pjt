@@ -155,12 +155,12 @@ def today_movie_list(request):
         days.today = today_ymd
         get_today_movie_list()
         today_json_to_db()
-        print(ymd)
-        print(today_ymd)
-        print(is_created)
-        print(days.today)
+        # print(ymd)
+        # print(today_ymd)
+        # print(is_created)
+        # print(days.today)
     else:
-        print(str(days.today)[:10])
+        # print(str(days.today)[:10])
         # delete_time = TodayMovieCreated.objects.all()
         # for x in delete_time:
         #     x.delete()
@@ -207,7 +207,7 @@ def movie_page(request, page_id):
     for i in range(20):
         movies = AllMovie.objects.all()
         movies = movies[page_id*20-20 : page_id*20]
-        print(movies)
+        # print(movies)
     serializer = AllMovieListSerializer(movies, many=True)
     for iidx in range(len(serializer.data)):
         genre_list, video_list = [], []
@@ -225,7 +225,7 @@ def movie_page(request, page_id):
 @api_view(['GET'])
 def movie_detail(request, movie_id):
     movie_detail = movie_detail_url(movie_id)
-    print(movie_detail)
+    # print(movie_detail)
     for md in movie_detail:
         movies = MovieDetail()
         movies.movie_id = md['movie_id']
@@ -243,9 +243,10 @@ def movie_detail(request, movie_id):
         movies.release_date = md['release_date']
         movies.runtime = md['runtime']
         movies.vote_average = md['vote_average']
+        movies.video = md['videos']
         movies.save()
-    print('일단 movieset을 db에 저장함')
-    print(movies)
+    # print('일단 movieset을 db에 저장함')
+    # print(movies)
 
     serializer = MovieDetailSerializer(movies)
     return Response(serializer.data)
@@ -313,23 +314,39 @@ def comment_detail(request, movie_id, comments_pk):
             return Response(serializer.data)
 
 
+# @api_view(['POST'])
+# def comment_create(request, movie_pk):
+#     # movie = Movie.objects.get(pk=Movie_pk)
+#     movie = get_object_or_404(AllMovie, pk=movie_pk)
+#     print('movie')
+#     print(movie)
+#     user = get_object_or_404(get_user_model(), pk = request.user.pk)
+#     print(user)
+#     print(request.data)
+#     # comment = CommentSerializer()
+#     serializer = CommentSerializer()
+#     print(serializer.data)
+#     if serializer.is_valid(raise_exception=True):
+#         print('check-----------------------------')
+#         serializer.save(user=user, movie = movie)
+#         print(serializer)
+#         # serializer = MovieSerializer(movie)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 @api_view(['POST'])
 def comment_create(request, movie_pk):
-    # movie = Movie.objects.get(pk=Movie_pk)
     movie = get_object_or_404(AllMovie, pk=movie_pk)
     print(movie)
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
     print(user)
-    print(request.user)
+    print(request.data) 
     # comment = CommentSerializer()
     serializer = CommentSerializer(data=request.data)
     # print(serializer)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(user=user, movie = movie)
-        print(serializer)
-        # serializer = MovieSerializer(movie)
-        return Response(serializer.data)
-    
+        serializer.save(user = user, movie = movie)
+        # print(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
     
 @api_view(['GET', 'POST'])
 def predict_movie(request):
@@ -341,10 +358,10 @@ def predict_movie(request):
         actor1 = ActorList.objects.filter(actor_name=an)
         if not actor1:
             continue
-        print(actor1[0].actor)
-        print(actor1[0].actor_name)
-        print(actor1[0].actor_popularity)
-        print(actor1[0].actor_revenue)
+        # print(actor1[0].actor)
+        # print(actor1[0].actor_name)
+        # print(actor1[0].actor_popularity)
+        # print(actor1[0].actor_revenue)
         check_all.append({
             "actor_id": actor1[0].actor,
             "actor_name": actor1[0].actor_name,
@@ -352,10 +369,10 @@ def predict_movie(request):
             "actor_revenue": actor1[0].actor_revenue,
         })
         answer.append(int(actor1[0].actor_revenue))
-    print(check_all)
+    # print(check_all)
     # df_check = make_df(check_all)
     # print(df_check)
-    print(answer)
+    # print(answer)
     if not answer:
         return Response(0)
     answer = sum(answer)/len(answer)
@@ -364,21 +381,16 @@ def predict_movie(request):
     # }
     return Response(int(answer))
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def recommend_movie(request):
-    # movie = request.data['movie']
-    movie = ['어벤져스']
+    movie = request.data['movie']
     recommend_list = []
-    df = preprocess(movie[0])
-    # feature_name = df.columns
+    df = preprocess(movie)
     for idx in range(len(df)):
-        # recommend_list.append(
-        #     dict(df.iloc[idx])
-        # )
         movies = AllMovie.objects.filter(title=df[idx])
-        print(movies[0])
+        # print(movies[0])
         recommend_list.append(movies[0])
-    print(recommend_list)
+    # print(recommend_list)
     serializer = AllMovieListSerializer(recommend_list, many=True)
     for iidx in range(len(serializer.data)):
         genre_list, video_list = [], []

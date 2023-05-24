@@ -49,7 +49,7 @@ class MovieDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
+    # user = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     class Meta:
         model = Comment
         fields = '__all__'

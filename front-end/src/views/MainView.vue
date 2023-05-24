@@ -2,18 +2,22 @@
   <div>
     <h1>Main Page</h1>
     <MovieList />
+    <MovieBestList/>
     <MovieTodayList />
     <hr>
   </div>
 </template>
 
 <script>
+import MovieBestList from '@/components/MovieBestList.vue'
 import MovieTodayList from '@/components/MovieTodayList.vue'
 import MovieList from '@/components/MovieList.vue'
 
 export default {
   name: 'MainView',
   components: {
+
+    MovieBestList,
     MovieList,
     MovieTodayList,
 

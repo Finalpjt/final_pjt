@@ -8,12 +8,27 @@ def movie_detail_url(movie_id):
     res = requests.get(url).text
     data = json.loads(res)
     # print(data)
+    
+    video_url = 'https://api.themoviedb.org/3/movie/' + str(movie_id) + '/videos?api_key=' + my_api_key +'&language=en-US'
+    video_res = requests.get(video_url).text
+    video_data = json.loads(video_res)
+    video_data = video_data['results'][:5]
+    
+    yt_url_list = []
+
+    for video_key in video_data:
+        video_key = video_key['key']
+        yt_url = 'https://www.youtube.com/watch?v=' + video_key
+        yt_url_list.append(yt_url)
+    
     if data['backdrop_path']:
         data['backdrop_path'] = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
     if data['poster_path']:
         data['poster_path'] = 'https://image.tmdb.org/t/p/original' + data['poster_path']
     for idx, genre in enumerate(data['genres']):
         data['genres'][idx] = genre['name']
+        
+    
     new_data = [
         {
             'movie_id': data['id'],
@@ -31,6 +46,7 @@ def movie_detail_url(movie_id):
             'runtime': data['runtime'],
             'vote_average': data['vote_average'],
             'title': data['title'],
+            'videos': yt_url_list,
         }
     ]
     return new_data

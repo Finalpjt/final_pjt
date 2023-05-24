@@ -3,23 +3,24 @@
     <h1>Home Page</h1>
     <h2>Login</h2>
     <div v-if="this.isLogin">
-      isLogin.
+      isLogin.{{username}}
       <br>
       <!-- <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
       <button @click="search()">search</button> -->
     </div>
     <div v-if="!this.isLogin">
       <label for="username">사용자명 : </label>
-      <input @keyup.enter="login()" ref="cursor" type="text" id="username" v-model="username"><br>
+      <input @keyup.enter="Cursor_password" ref="cursor" type="text" id="username" v-model="username"><br>
 
       <label for="password"> 비밀번호 : </label>
       <input @keyup.enter="login()" ref="cursor_password" type="password" id="password" v-model="password"><br>
 
-      <input @click="login()" type="submit" value="확인">
+      <input @click="login" type="submit" value="확인">
       <router-link v-if="!isLogin" to="/signup">
       회원가입
       </router-link>
     </div>
+    <MovieRecommend />
   </div>
 </template>
 
@@ -29,6 +30,10 @@
 
 export default {
   name: 'HomeView',
+  components: {
+
+
+  },
   data() {
     return {
       username: null,
@@ -36,9 +41,9 @@ export default {
       searchkey: null,
     }
   },
-  mounted() {
-    if(!this.login){this.startCursor()}
-  },
+  // mounted() {
+  //   if(!this.login){this.startCursor()}
+  // },
   
   computed: {
     isLogin() {
@@ -53,6 +58,7 @@ export default {
     login() {
       const username = this.username
       const password = this.password
+      console.log(username)
 
       if (!username) {
         alert('ID 입력해주세요')
@@ -75,12 +81,13 @@ export default {
     //   }
     //   this.$store.dispatch('search', payload)
     // },
+
     // startCursor() {
     //   this.$refs.cursor.focus()
     // },
-    // Cursor_password() {
-    //   this.$refs.cursor_password.focus()
-    // }
+    Cursor_password() {
+      this.$refs.cursor_password.focus()
+    }
   }
 }
 </script>
