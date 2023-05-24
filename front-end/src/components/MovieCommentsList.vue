@@ -5,7 +5,7 @@
 
     <div v-for="comment in comments"
     :key="comment.id" :comment="comment"
-    >{{ comment }}
+    >{{ comment.content }}
 		<p><button @click="deleteComment(comment.id)">X</button></p>
 		</div>
   </div>
@@ -43,7 +43,7 @@ export default {
 			
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/comments/${ movie_id }`,
+        url: `${API_URL}/api/v1/movies/${ movie_id }/allcomments/`,
       })
         .then((res) => {
 					this.comments = res.data

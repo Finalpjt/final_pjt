@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import MovieRecommend from '@/components/MovieRecommend.vue'
+
 // @ is an alias to /src
 
 export default {
   name: 'HomeView',
   components: {
 
-  MovieRecommend,
 
   },
   data() {

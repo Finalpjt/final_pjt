@@ -39,6 +39,7 @@ export default new Vuex.Store({
     },
     // signup & login -> 완료하면 토큰 발급
     SIGNUP_TOKEN(state, token) {
+      
       state.token = token
       router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
@@ -113,6 +114,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
+          this.state.username = res.data.username
           context.commit('SIGNUP_TOKEN', res.data.key)
         })
         .catch((err) => {
@@ -153,6 +155,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
         console.log(res.data.key)
+        this.state.username = res.data.username
         context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => 

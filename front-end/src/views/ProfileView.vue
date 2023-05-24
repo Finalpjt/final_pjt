@@ -6,7 +6,7 @@
     사용자 이메일 : {{ email }}
     <br>
     <!-- 사용자 닉네임 : {{ nickname }} -->
-    <router-link to="/profilechange">changepassword</router-link>
+    <router-link to="/PasswordChangeView">changepassword</router-link>
   </div>
 </template>
 
