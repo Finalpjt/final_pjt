@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import AllGenre, AllMovie, AllRelatedVideo, TodayGenre, TodayMovie, TodayRelatedVideo, Comment
 from .models import MovieDetail, ActorList
-
+from django.contrib.auth import get_user_model
 
 class AllGenreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,7 +49,7 @@ class MovieDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-
+    user = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     class Meta:
         model = Comment
         fields = '__all__'
@@ -64,7 +64,7 @@ class ActorListSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     comment_set = CommentSerializer(many=True, read_only=True)
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
-    # username = serializers.CharField(source='user.username', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
         model = AllMovie

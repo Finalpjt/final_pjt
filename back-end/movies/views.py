@@ -284,14 +284,18 @@ def comment_list(request, movie_id):
         print(movie)
         # comments = get_list_or_404(Comment, )
         serializer = MovieSerializer(movie)
-        print(serializer.data['comment_set'])
+        print(serializer.data)
         return Response(serializer.data['comment_set'])
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
-def comment_detail(request, comment_pk):
+def comment_detail(request, movie_id, comments_pk):
     # comment = Comment.objects.get(pk=comment_pk)
-    comment = get_object_or_404(Comment, pk=comment_pk)
+    print('체크중입니다.------------------------')
+    movie = get_object_or_404(AllMovie, pk = movie_id)
+    comment = get_object_or_404(Comment, pk = comments_pk)
+    print(movie)
+    print(comment)
 
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
@@ -299,7 +303,8 @@ def comment_detail(request, comment_pk):
 
     elif request.method == 'DELETE':
         comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data['comment_set'])
 
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
@@ -322,7 +327,8 @@ def comment_create(request, movie_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=user, movie = movie)
         print(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # serializer = MovieSerializer(movie)
+        return Response(serializer.data)
     
     
 @api_view(['GET', 'POST'])
