@@ -8,6 +8,7 @@
     <p>작성시간 : {{ movie?.created_at }}</p>
     <p>수정시간 : {{ movie?.updated_at }}</p>
     {{movie}}
+    <button @click="getlikes()">button</button>
     <MovieRecommend v-bind:movie="movie"/>
     <MovieComments/>
     <!-- <MovieCommentsList/> -->
@@ -57,7 +58,29 @@ export default {
     },
     getUser() {
       this.$store.dispatch('getUser')
+      
     },
+    getlikes() {
+      console.log(this.$route.params.id)
+      // const movie_id = this.$route.params.id
+      axios({
+        method: 'post',
+        url: `${API_URL}/api/v1/movies/${ this.$route.params.id }/likes/`,
+        // data:{
+        //   movie_id
+        // },
+        headers:{
+          Authorization: `Token ${this.$store.state.token}`
+        }
+      })
+      .then((res) => {
+        console.log(res)
+        this.movie = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

@@ -41,12 +41,12 @@ export default new Vuex.Store({
     SIGNUP_TOKEN(state, token) {
       
       state.token = token
-      router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+    //   router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
     },
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
+    //   router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
     },
     LOG_OUT(state) {
@@ -160,7 +160,7 @@ export default new Vuex.Store({
         })
         .catch((err) => 
         console.log(err),
-        location.reload(true)
+        // location.reload(true)
       )
     },
     logout(context){

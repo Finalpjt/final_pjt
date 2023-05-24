@@ -38,9 +38,6 @@ export default {
   data() {
     return {
       searchkey: null,
-      // user: this.$store.state.user,
-      // username: this.$store.state.username,
-      // email: this.$store.state.email,
     }
   },
   computed: {
@@ -51,9 +48,6 @@ export default {
   mounted() {
     // this.startCursor()
   },
-  // created() {
-  //   this.getUser()
-  // },
   methods: {
     logout () {
       this.$store.dispatch('logout')
@@ -69,9 +63,6 @@ export default {
     startCursor() {
       this.$refs.cursor.focus()
     },
-    // getUser() {
-    //   this.$store.dispatch('getUser')
-    // },
   }
 }
 </script>

@@ -14,7 +14,9 @@
         <div v-for="comment in comments"
         :key="comment.id" :comment="comment"
         >
-        <p> user_id : {{ comment.user }} content : {{ comment.content }}<button @click="deleteComment(comment.comment_id)">X</button></p>
+        <p> user_id : {{ comment.user }} content : {{ comment.content }}
+          <button v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">X</button>
+        </p>
     </div>
   </div>
   </div>
@@ -46,12 +48,12 @@ export default {
   },
   methods: {
     getComments(){
-        const id = this.$route.params.id
+        const movie_id = this.$route.params.id
             // const movie_id = this.$route.params.id
         console.log()
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/${ id }/allcomments/`,
+        url: `${API_URL}/api/v1/movies/${ movie_id }/allcomments/`,
       })
         .then((res) => {
             this.comments = res.data
@@ -87,9 +89,10 @@ export default {
       const content = this.comment_create
       const id = this.$route.params.id
       const movie_id = id
+      console.log('체크중')
       axios({
         method: 'post',
-        url: `${API_URL}/api/v1/movies/${ id }/comments/`,
+        url: `${API_URL}/api/v1/movies/${ movie_id }/comments/`,
         data: {
           content, movie_id
         },
@@ -98,7 +101,7 @@ export default {
         }
       })
         .then((res) => {
-          
+          console.log('체크중')
           console.log(res)
           // this.$router.push(`${API_URL}/api/v1/movies/${ id }/comments/`)
           // location.reload(true)
