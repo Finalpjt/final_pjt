@@ -19,7 +19,7 @@ def user_profile(request, username):
     user = get_object_or_404(Accounts, username=username)
     if request.method == 'GET':
         serialized_user = UserSerializer(user)
-        print(serialized_user.data)
+        # print(serialized_user.data)
         return Response(serialized_user.data)
     elif request.method == 'PATCH':
         serialized_user = UserSerializer(user, data=request.data)
@@ -35,8 +35,8 @@ def user_nickname(request):
 
 @api_view(['POST'])
 def login(request):
-    print(request.data)
-
+    # print(request.data)
+    pass
 
 # @api_view(['POST'])
 # def logout(request):

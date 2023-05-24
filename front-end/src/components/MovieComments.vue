@@ -14,7 +14,9 @@
         <div v-for="comment in comments"
         :key="comment.id" :comment="comment"
         >
-        <p> user_id : {{ comment.user }} content : {{ comment.content }}<button @click="deleteComment(comment.comment_id)">X</button></p>
+        <p> user_id : {{ comment.user }} content : {{ comment.content }}
+          <button v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">X</button>
+        </p>
     </div>
   </div>
   </div>

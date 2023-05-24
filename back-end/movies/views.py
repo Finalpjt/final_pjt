@@ -282,21 +282,21 @@ def comment_list(request, movie_id):
     if request.method == 'GET':
         # comments = Comment.objects.all()
         movie = get_object_or_404(AllMovie, pk=movie_id)
-        print(movie)
+        # print(movie)
         # comments = get_list_or_404(Comment, )
         serializer = MovieSerializer(movie)
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data['comment_set'])
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, movie_id, comments_pk):
     # comment = Comment.objects.get(pk=comment_pk)
-    print('체크중입니다.------------------------')
+    # print('체크중입니다.------------------------')
     movie = get_object_or_404(AllMovie, pk = movie_id)
     comment = get_object_or_404(Comment, pk = comments_pk)
-    print(movie)
-    print(comment)
+    # print(movie)
+    # print(comment)
 
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
@@ -337,8 +337,8 @@ def comment_create(request, movie_pk):
     movie = get_object_or_404(AllMovie, pk=movie_pk)
     print(movie)
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
-    print(user)
-    print(request.data) 
+    # print(user)
+    # print(request.data) 
     # comment = CommentSerializer()
     serializer = CommentSerializer(data=request.data)
     # print(serializer)
@@ -405,13 +405,50 @@ def recommend_movie(request):
             serializer.data[iidx]['videos'][v_idx] = v['video']
     return Response(serializer.data)
 
+@api_view(['GET', 'POST'])
+def profile_recommend_movie(request):
+    movie = request.data['movie']
+    recommend_list = []
+    # print('------------------------------')
+    # print(movie)
+    # print(request.data)
+    # print('------------------------------')
+    return Response(movie)
+    df = preprocess(movie)
+    for idx in range(len(df)):
+        movies = AllMovie.objects.filter(title=df[idx])
+        # print(movies[0])
+        recommend_list.append(movies[0])
+    # print(recommend_list)
+    serializer = AllMovieListSerializer(recommend_list, many=True)
+    for iidx in range(len(serializer.data)):
+        genre_list, video_list = [], []
+        for genre in dict(serializer.data[iidx])['genres']:
+            genre_list.append(dict(genre)['genre_ids'])
+        for idx, i in enumerate(genre_list):
+            serializer.data[iidx]['genres'][idx] = i
+            
+        for video in dict(serializer.data[iidx])['videos']:
+            video_list.append(dict(video))
+        for v_idx, v in enumerate(video_list):
+            serializer.data[iidx]['videos'][v_idx] = v['video']
+    return Response(serializer.data)
 
+
+@api_view(['GET', 'POST'])
 def movie_likes(request, movie_id):
     # try:
     movie = AllMovie.objects.get(pk=movie_id)
-    movie.like_users.add(request.user)
+    # print(movie)
+    user = get_object_or_404(get_user_model(), pk = request.user.pk)
+    # print(request.user)
+    if movie.like_users.filter(pk = user.pk).exists():
+        movie.like_users.remove(user)
+    else:
+        movie.like_users.add(user)
+    
     serializer = AllMovieListSerializer(movie)
-    print(serializer.data)
+    # print(serializer.data)
     return JsonResponse(serializer.data)
     # except Movie.DoesNotExist:
     #     return Response({'error': '영화를 찾을 수 없습니다.'}, status=404)

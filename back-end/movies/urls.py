@@ -15,6 +15,7 @@ urlpatterns = [
     path('movies/<int:movie_id>/allcomments/<int:comments_pk>/', views.comment_detail), #댓삭
     path('movies/predicts/', views.predict_movie, name='predicts'), #영화 예측
     path('movies/recommends/', views.recommend_movie, name='recommend'), #영화 추천
+    path('movies/recommends/profile/', views.profile_recommend_movie, name='profilerecommend'), #영화 추천
     # # 필수 작성
     # path('schema/', SpectacularAPIView.as_view(), name='schema'),
     # # optional UI

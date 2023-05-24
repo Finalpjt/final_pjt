@@ -1,7 +1,8 @@
 <template>
 	<div>
     <h1>MovieRecommend</h1>
-    <div class="row row-cols-1 row-cols-md-5 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- {{like_movies}} -->
     <div
     v-for="recommend_movie in recommend_movies" :key="recommend_movie.id" :movie="movie"
     >
@@ -29,36 +30,42 @@ import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
-  name: 'MovieRecommend',
+  name: 'MovieRecommendProfile',
+  props: {
+    like_movies: Array,
+  },
   data() {
     return {
       recommend_movies: [],
+      like_movie: null,
     }
   },
-  props: {
-    movie: Object,
+  computed: {
+    like_movies_computed() {
+       return this.like_movies
+    }
   },
   created(){
     this.recommendMovies()
   },
-  // mounted() {
-  //   this.startCursor()
-  // },
   methods: {
     recommendMovies(){
-      const movie_title = this.movie.title
-      // console.log(movie_title)
+      console.log(this.like_movies)
+      console.log('일단 like_movie확인')
+      const movie_title = this.like_movies
+      console.log('---------------------')
+      console.log(movie_title)
 
       axios({
         method: 'post',
-        url: `${API_URL}/api/v1/movies/recommends/`,
+        url: `${API_URL}/api/v1/movies/recommends/profile/`,
         data: {
           movie: movie_title
         }
       })
       .then((res) => {
-        // console.log(res)
-        // console.log(res.data)
+        console.log(res)
+        console.log(res.data)
         this.recommend_movies = res.data
         console.log(this.recommend_movies)
 
