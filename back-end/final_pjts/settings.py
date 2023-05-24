@@ -53,15 +53,16 @@ INSTALLED_APPS = [
     'rest_framework',
     
     'corsheaders',
+    # 'django_crontab',
     
     'rest_framework.authtoken',
     'dj_rest_auth',
     
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'dj_rest_auth.registration',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     
     'django_extensions',
     'django.contrib.admin',
@@ -143,7 +144,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'final_pjts.wsgi.application'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': 3600,
+    }
 
+}
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -179,13 +186,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -198,6 +205,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.Accounts'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+DATE_INPUT_FORMATS = ['%Y-%m-%d']

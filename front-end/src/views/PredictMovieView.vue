@@ -8,10 +8,10 @@
     <h5>Picked Actors</h5>
     <div v-for="pick_actor in pick_actors" :key="pick_actor.id.id" :pick_actor="pick_actor">{{pick_actor.name}}</div>
 
-    <button @click="resetActor">초기화</button>
+    <!-- <button @click="resetActor">초기화</button> -->
 
     <button @click="movieRevenue">확인</button>
-    
+    <br>
     <input ref="cursorpredict" type="text" v-model="actor_search" @keyup.enter="actorSearch()" value="search">
     <button @click="actorSearch()">actor_search</button>
     
@@ -63,10 +63,10 @@ export default {
     //   console.log(err)
     //   })
 		// },
-    resetActor () {
-      this.pick_actor = null
-      // location.reload(true)
-    },
+    // resetActor () {
+    //   this.pick_actors = null
+    //   // location.reload(true)
+    // },
     pickActor(id) {
       const pick_actors = this.pick_actors
       // console.log(pick_actors)
@@ -144,10 +144,10 @@ export default {
             }
           }
         })
-        console.log(AllActors) 
+        // console.log(AllActors) 
         this.actor_search = null
         this.Cursorpredict()
-        console.log(AllActors)
+        // console.log(AllActors)
       })
       .catch((err) => console.log(err))
     },

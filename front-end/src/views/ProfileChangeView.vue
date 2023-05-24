@@ -19,6 +19,7 @@
 
 export default {
   name: 'ProfileChangeView',
+
   data() {
     return {
       new_password1: null,

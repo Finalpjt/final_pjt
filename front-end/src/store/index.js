@@ -39,13 +39,14 @@ export default new Vuex.Store({
     },
     // signup & login -> 완료하면 토큰 발급
     SIGNUP_TOKEN(state, token) {
+      
       state.token = token
-      router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+    //   router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
     },
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
+    //   router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
     },
     LOG_OUT(state) {
@@ -56,11 +57,12 @@ export default new Vuex.Store({
       state.token = null
       
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
-      location.reload(true)
+      // location.reload(true)
     },
     SEARCH(state, movies) {
       state.search_movies = movies
       // router.go(router.currentRoute)
+      console.log(this.$route.params.id)
       router.push({name: 'SearchView'})
       // location.reload(true)
        // 현재 위치 새로고침
@@ -113,6 +115,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           console.log(res)
+          this.state.username = res.data.username
           context.commit('SIGNUP_TOKEN', res.data.key)
         })
         .catch((err) => {
@@ -141,7 +144,7 @@ export default new Vuex.Store({
       })
     },
     login(context, payload) {
-      console.log(payload);
+      // console.log(payload)
       const username = payload.username
       const password = payload.password
       axios({
@@ -153,11 +156,12 @@ export default new Vuex.Store({
       })
         .then((res) => {
         console.log(res.data.key)
+        this.state.username = res.data.username
         context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => 
-        console.log(err),
-        location.reload(true)
+        console.log(err)
+        // location.reload(true)
       )
     },
     logout(context){

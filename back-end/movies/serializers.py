@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import AllGenre, AllMovie, AllRelatedVideo, TodayGenre, TodayMovie, TodayRelatedVideo, Comment
-
-
+from .models import MovieDetail, ActorList
+from django.contrib.auth import get_user_model
 
 class AllGenreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,21 +11,17 @@ class AllGenreSerializer(serializers.ModelSerializer):
 class AllVideoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AllRelatedVideo
-        # fields = ('id', 'title', 'content')
-        # fields = ('id', 'title', 'content', 'user', 'username')
-        # fields = '__all__'
         fields = ('video',)
         
 class AllMovieListSerializer(serializers.ModelSerializer):
     genres = AllGenreSerializer(many=True, read_only=True, source='allgenre_set')
-    videos = AllVideoListSerializer(many=True, read_only=True, source='allvideolist_set')
-    # print(videos)
-    # print(genres)
+    videos = AllVideoListSerializer(many=True, read_only=True, source='allrelatedvideo_set')
+    username = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
+    # like_users = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     class Meta:
         model = AllMovie
-        # fields = ('id', 'title', 'content')
-        # fields = ('id', 'title', 'content', 'user', 'username')
-        fields = ('movie_id', 'adult', 'original_language', 'genres', 'videos')
+        # fields = ('movie_id', 'adult', 'original_language', 'genres', 'videos')
+        fields = '__all__'
         
 class TodayGenreSerializer(serializers.ModelSerializer):
     # genre_ids = serializers.SerializerMethodField()
@@ -33,15 +29,6 @@ class TodayGenreSerializer(serializers.ModelSerializer):
         model = AllGenre
         fields = ('genre_ids',) 
         
-    # def get_genres_ids(self, objectt):
-    #     output = []
-    #     x = TodayGenre.objects.get_or_create(genres_ids = genre_ids)
-    #     print(x)
-        # for obj in objectt:
-        #     print('--------------------------------------------------')
-        #     print(obj)
-        #     output.append(obj)
-        # return x
 
 class TodayVideoListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,38 +43,28 @@ class TodayMovieListSerializer(serializers.ModelSerializer):
         model = TodayMovie
         fields = '__all__'
         
-    # def get_genre_ids(self, objectt):
-    #     output = []
-    #     x = TodayGenre.objects.get(genres = objectt.genre_ids)
-    #     print(x)
-    #     print('-----------------------------------------')
-    #     # for obj in objectt:
-    #     #     print('--------------------------------------------------')
-    #     #     print(obj)
-    #     #     output.append(obj)
-        # return x
-
-# class MovieListSerializer(serializers.ModelSerializer):
-#     username = serializers.CharField(source='user.username', read_only=True)
-
-#     class Meta:
-#         model = Movie
-#         # fields = ('id', 'title', 'content')
-#         fields = ('id', 'title', 'content', 'user', 'username')
-
+class MovieDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovieDetail
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-
+    # user = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     class Meta:
         model = Comment
         fields = '__all__'
-        # read_only_fields = ('movie',)
+        read_only_fields = ('user', 'movie')
+
+class ActorListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActorList
+        fields = '__all__'
 
 
 class MovieSerializer(serializers.ModelSerializer):
     comment_set = CommentSerializer(many=True, read_only=True)
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
-    # username = serializers.CharField(source='user.username', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
         model = AllMovie
