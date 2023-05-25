@@ -1,42 +1,51 @@
 <template>
   <div>
-    <h1>Article Page</h1>
-    <router-link :to="{ name: 'CreateView' }">[CREATE]</router-link>
-    <ArticleList />
+    <h1>Main Page</h1>
+    <MovieList />
+    <MovieBestList/>
+    <MovieTodayList />
     <hr>
   </div>
 </template>
 
 <script>
-import ArticleList from '@/components/ArticleList.vue'
+import MovieBestList from '@/components/MovieBestList.vue'
+import MovieTodayList from '@/components/MovieTodayList.vue'
+import MovieList from '@/components/MovieList.vue'
 
 export default {
-  name: 'ArticleView',
+  name: 'MainView',
   components: {
-    ArticleList,
+
+    MovieBestList,
+    MovieList,
+    MovieTodayList,
+
   },
+  
   computed:{
     isLogin() {
       return this.$store.getters.isLogin // 로그인 여부
     }
   },
   created() {
-    this.getArticles()
+    this.getTodayMovies()
   },
   methods: {
-    getArticles() {
+    getTodayMovies() {
       if (this.isLogin) {
-        this.$store.dispatch('getArticles')
+        this.$store.dispatch('getTodayMovies')
       } else {
         alert('로그인이 필요한 페이지입니다...')
-        this.$router.push({ name: 'LogInView' })
+        this.$router.push({ name: 'HomeView' })
       }
 
 
       // 로그인이 되어 있으면 getArticles action 실행
       // 로그인 X라면 login 페이지로 이동
 
-    }
+    },
+
   }
 }
 </script>

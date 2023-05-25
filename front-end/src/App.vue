@@ -1,59 +1,68 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="navbar-brand">vue-login</div>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/">
-            <font-awesome-icon icon="home" /> Home
-          </router-link>
-        </li>
-      </div>
-      <div class="navbar-nav ml-auto" v-if="!currentUser">
-        <li class="nav-item">
-          <router-link to="/signin">
-            <font-awesome-icon icon="user-plus" /> Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a href="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" /> Login
-          </a>
-        </li>
-      </div>
+    <router-link to="/">
+    Home
+    </router-link>
+    
+    <span v-if="isLogin">
+    |  
+    <router-link to="/profile">
+    profile
+    </router-link>
+    |
+    <router-link to="/predict">
+    predict revenue
+    </router-link>
+    |
+    <router-link to="/main">
+    main page
+    </router-link>
+    |
+    <router-link v-if="!isLogin" to="/signup">
+    Sign Up
+    </router-link>
 
-      <div class="navbar-nav ml-auto" v-if="currentUser">
-        <li class="nav-item">
-          <router-link to="/profile">
-            <font-awesome-icon icon="user" />
-            {{currentUser.username}}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a href class="nav-link" @click="logOut">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
-          </a>
-        </li>
-      </div>
-    </nav>
-    <div class="container">
-      <router-view />
-    </div>
+    <input ref="cursor" type="text" v-model="searchkey" @keyup.enter="search()" value="search">
+    <button @click="search()">search</button>
+
+    </span>
+
+    <button v-if="isLogin" @click="logout">logout</button>
+    <router-view />
+
   </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    currentUser () {
-      return this.$store.state.auth.user
+  data() {
+    return {
+      searchkey: null,
     }
   },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin // 로그인 여부
+    },
+  },
+  mounted() {
+    // this.startCursor()
+  },
   methods: {
-    logOut () {
-      this.$store.dispatch('auth/logout')
-      this.$router.push('/')
-    }
+    logout () {
+      this.$store.dispatch('logout')
+    },
+    search() {
+      const searchkey = this.searchkey
+      const payload = {
+        searchkey
+      }
+      this.$store.dispatch('search', payload)
+      this.searchkey = null
+    },
+    startCursor() {
+      this.$refs.cursor.focus()
+    },
   }
 }
 </script>

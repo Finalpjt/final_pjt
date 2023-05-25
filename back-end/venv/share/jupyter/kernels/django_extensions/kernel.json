@@ -1,0 +1,1 @@
+{"argv": ["python", "-m", "ipykernel_launcher", "-f", "{connection_file}", "--ext", "django_extensions.management.notebook_extension"], "env": {"PYTHONPATH": "C:\\Users\\SSAFY\\Desktop\\1\ud559\uae30\\PJT\\final_pjt\\back-end"}, "display_name": "Django Shell-Plus", "language": "python", "interrupt_mode": "signal", "metadata": {"debugger": true}}
