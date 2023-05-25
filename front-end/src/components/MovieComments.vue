@@ -57,9 +57,9 @@ export default {
       })
         .then((res) => {
             this.comments = res.data
-            console.log('------------------------------')
-            console.log(res.data)
-            console.log(this.comments.comment_id)
+            // console.log('------------------------------')
+            // console.log(res.data)
+            // console.log(this.comments.comment_id)
         })
         .catch((err) => {
         console.log(err)

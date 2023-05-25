@@ -450,12 +450,13 @@ def movie_likes(request, movie_id):
     user = get_object_or_404(get_user_model(), pk = request.user.pk)
     print(user)
     if movie.like_users.filter(pk = user.pk).exists():
+        print('있으니 삭제')
         movie.like_users.remove(user)
     else:
+        print('없으니 추가')
         movie.like_users.add(user)
-    
     serializer = AllMovieListSerializer(movie)
     print(serializer.data)
-    return JsonResponse(serializer.data)
+    return Response(serializer.data)
     # except Movie.DoesNotExist:
     #     return Response({'error': '영화를 찾을 수 없습니다.'}, status=404)

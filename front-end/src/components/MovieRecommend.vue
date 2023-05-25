@@ -3,7 +3,7 @@
     <h1>MovieRecommend</h1>
     <div class="row row-cols-1 row-cols-md-5 g-4">
     <div
-    v-for="recommend_movie in recommend_movies" :key="recommend_movie.id" :movie="movie"
+    v-for="(recommend_movie, idx) in recommend_movies" :key="idx" :movie="movie"
     >
     <div class="card" @click="reload()">
       
@@ -46,7 +46,7 @@ export default {
   // },
   methods: {
     recommendMovies(){
-      const movie_title = this.movie.title
+      const movie_title = this.movie?.title
       // console.log(movie_title)
 
       axios({
@@ -60,7 +60,7 @@ export default {
         // console.log(res)
         // console.log(res.data)
         this.recommend_movies = res.data
-        console.log(this.recommend_movies)
+        // console.log(this.recommend_movies)
 
       })
       .catch((err) => {

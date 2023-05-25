@@ -17,9 +17,11 @@ def user_list(request):
 # @renderer_classes([JSONRenderer])
 def user_profile(request, username):
     user = get_object_or_404(Accounts, username=username)
+    print(user)
+    print('--------------')
     if request.method == 'GET':
         serialized_user = UserSerializer(user)
-        # print(serialized_user.data)
+        print(serialized_user.data)
         return Response(serialized_user.data)
     elif request.method == 'PATCH':
         serialized_user = UserSerializer(user, data=request.data)

@@ -16,7 +16,7 @@ class AllVideoListSerializer(serializers.ModelSerializer):
 class AllMovieListSerializer(serializers.ModelSerializer):
     genres = AllGenreSerializer(many=True, read_only=True, source='allgenre_set')
     videos = AllVideoListSerializer(many=True, read_only=True, source='allrelatedvideo_set')
-    username = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
+    # user = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     # like_users = serializers.SlugRelatedField(slug_field='username', queryset=get_user_model().objects.all())
     class Meta:
         model = AllMovie

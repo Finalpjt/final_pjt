@@ -67,7 +67,7 @@ export default {
         }
       })
       .then((res) => {
-        // console.log(res.data)
+        console.log(res.data)
         this.user = res.data
         this.username = res.data.username
         this.email = res.data.email
