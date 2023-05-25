@@ -72,7 +72,7 @@
     <br>
     <div style="background-color: lightblue; color: black; border-radius:20px;">
     <li style="list-style: none;" v-if="movie?.like_users.indexOf(user.pk) !== -1">
-        <p>{{movie.user}} 님이 좋아하는 영화입니다.</p>
+        <p>{{movie?.user}} 님이 좋아하는 영화입니다.</p>
         <button type="button" class="btn btn-outline-secondary" @click="getlikes()">좋아요 취소</button>
     </li>
     <li v-else style="list-style-type: none;"> 

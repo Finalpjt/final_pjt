@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <h1>추천 영화</h1>
+    <h1 style="color: white;">추천 영화</h1>
     <button type="button" class="btn btn-primary" @click="recommendMovies()">눌러봐</button>
     <carousel :per-page="5" :paginationEnabled="true">
     <slide

@@ -2,13 +2,8 @@ def movie_detail_url(movie_id):
     import pandas as pd
     import json
     import requests
-    from django.conf import settings
     
-    def f_my_api_key():
-        my_api_key = getattr(settings, 'TMDB_SECRET_KEY', 'TMDB_SECRET_KEY')
-        return my_api_key
-    
-    my_api_key = f_my_api_key()
+    my_api_key = "6a5ece7778e61cb35c55c953b8743b0d"
     url = 'https://api.themoviedb.org/3/movie/'+ str(movie_id) +'?api_key=' + my_api_key + '&language=ko-KR'
     res = requests.get(url).text
     data = json.loads(res)

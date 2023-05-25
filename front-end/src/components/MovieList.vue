@@ -1,18 +1,35 @@
 <template>
   <div class="">
-    <h3>Movie Page : {{ page }}</h3>
-		<div>
-			<button @click="result(page=1)"> first </button>
-			<button @click="unitdown(page-10)"> | </button>
-			<button v-if="page==486" @click="result(page-2)"> {{ page-2 }} </button>
-			<button v-if="page!=1 & page-1!=486" @click="result(page-1)"> {{ page-1 }} </button>
+    <br><br>
+    <h3 class="text-light" style="color: white;">AllMovie</h3>
+	<br>
+    <br>
+		<div class="">
+
+			<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+			<button type="button" class="btn btn-dark" @click="result(page=1)"> first </button>
+			<button type="button" class="btn btn-dark" @click="unitdown(page-10)"> &lt;&lt; </button>
+			<button type="button" class="btn btn-dark" v-if="page==486" @click="result(page-2)"> {{ page-2 }} </button>
+			<button type="button" class="btn btn-dark" v-if="page!=1 & page-1!=486" @click="result(page-1)"> {{ page-1 }} </button>
 			<!-- <button v-if="page-1!=486" @click="result(page-1)"> {{ page-1 }} </button> -->
-			<button @click="result(page)"> {{ page }}</button>
-			<button v-if="page!=486" @click="result(page+1)"> {{ page+1 }}</button>
-			<button v-if="page==1" @click="result(page+2)"> {{ page+2 }} </button>
-			
-			<button @click="unitup(page+10)"> | </button>
-			<button @click="result(page=486)"> end </button>
+			<button type="button" class="btn btn-dark" @click="result(page)"> {{ page }}</button>
+			<button type="button" class="btn btn-dark" v-if="page!=486" @click="result(page+1)"> {{ page+1 }}</button>
+			<button type="button" class="btn btn-dark" v-if="page==1" @click="result(page+2)"> {{ page+2 }} </button>
+			<button type="button" class="btn btn-dark" @click="unitup(page+10)"> &gt;&gt; </button>
+			<button type="button" class="btn btn-dark" @click="result(page=486)"> end </button>
+			<input class="form-control btn btn-dark" type="search" :placeholder="`현재페이지:   ${page}`" aria-label="Search" v-model="new_page" @keyup.enter="result(new_page)">
+
+			<!-- <div class="btn-group" role="group">
+				<button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+				Dropdown
+				</button>
+				<ul class="dropdown-menu">
+				
+				<li><a class="dropdown-item" href="#">Dropdown link</a></li>
+				<li><a class="dropdown-item" href="#">Dropdown link</a></li>
+				</ul>
+			</div> -->
+			</div>
 
 		</div>
 		<br><br>
@@ -20,19 +37,19 @@
     <div v-for="movie in AllMovies" :key="movie.id" :movie="movie">
 			<!-- {{movie.title}} -->
 			<router-link :to="{
-      name: 'DetailView',
-      params: {id: movie.movie_id }}">
-			<div class="col">
-        <div class="card h-100">
+            name: 'DetailView',
+            params: {id: movie.movie_id }}">
+            <div class="col">
+            <div class="card h-100">
             <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" class="card-img-top" alt="" srcset="">
-            <div class="card-body h-100">
+            <!-- <div class="card-body h-100">
                 <h5 class="card-title">
                     {{ movie.title }}
                 </h5>
-                <!-- <p class="card-text">
-                    {{ movie.overview }} -->
-                <!-- </p> -->
-            </div>
+                <p class="card-text">
+                    {{ movie.overview }}
+                </p>
+            </div> -->
         </div>
         </div>
       </router-link>
@@ -51,7 +68,8 @@ export default {
 	data() {
 		return {
 			page:1,
-			AllMovies:null
+			AllMovies:null,
+            new_page: null,
 		}
 	},
 
@@ -61,6 +79,9 @@ export default {
     // }
   },
 	
+  created(){
+	this.pagination()
+  },
 	methods: {
 		unitdown(page) {
 			if(this.page <= 11){
@@ -101,5 +122,10 @@ export default {
 </script>
 
 <style>
-
+.form-control::placeholder {
+  color: #ffffff;
+}
+.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
 </style>

@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <h1>Profile</h1>
-    <form @submit.prevent="profileChange">
-      <label for="new_password1"> 비밀번호 : </label>
-      <input type="new_password1" id="new_password1" v-model="new_password1">
-
-      <label for="new_password2"> 비밀번호 확인 : </label>
-      <input type="new_password2" id="new_password2" v-model="new_password2">
-
-      <input type="submit" value="profileChange">
-    </form>
+  <div class="background">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <h1 class="text-light">New password</h1><br><br>
+      <div class="form-floating align-conten-center">
+            <input v-model="new_password1"  ref="cursor" type="password" class="form-control" id="floatingPass" placeholder="Password">
+            <label for="floatingPass">Password</label>
+          
+          <div class="form-floating">
+            <input v-model="new_password2"  ref="cursor_password" type="password" class="form-control" id="floatingPassword" placeholder="Confirm Password">
+            <label for="floatingPassword">Confirm Password</label>
+          </div>
+          <button @click="profileChange()" class="w-100 btn btn-lg btn-dark">Confirm Password</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,10 +38,19 @@ export default {
       const payload = {
         new_password1, new_password2
       }
-      this.$store.dispatch('profileChange', payload)
-      // this.$router.push('/home')
-
+      console.log(payload)
+      // this.$store.dispatch('profileChange', payload)
+      this.$router.push('/')
+      alert('홈으로 갑니다.')
     }
   }
 }
 </script>
+
+<style>
+.background {
+  height: 100vh;
+  width: 100vw;
+  background-color: #141414
+}
+</style>

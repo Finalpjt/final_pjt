@@ -1,5 +1,4 @@
 def get_today_movie_list():
-    from django.conf import settings
     import requests
     from bs4 import BeautifulSoup as bs
     import json
@@ -8,12 +7,6 @@ def get_today_movie_list():
     import matplotlib.pyplot as plt
     from datetime import date, datetime, timedelta
 
-    def f_my_api_key():
-        my_api_key = getattr(settings, 'TMDB_SECRET_KEY', 'TMDB_SECRET_KEY')
-        return my_api_key
-    def f_today_secret_key():
-        today_movie_key = getattr(settings, 'TODAY_SECRET_KEY', 'TODAY_SECRET_KEY')
-        return today_movie_key
     
     # 오늘 날짜 자동 계산
     ymd = date.today() - timedelta(1)
@@ -21,8 +14,8 @@ def get_today_movie_list():
     # print(ymd)
 
     # 오늘 상영중인 영화
-    my_api_key = f_my_api_key()
-    today_movie_key = f_today_secret_key()
+    my_api_key = "6a5ece7778e61cb35c55c953b8743b0d"
+    today_movie_key = "0163c18e093080d6b1ad11fa2fadfad1"
 
     today = ymd
 
@@ -210,5 +203,3 @@ def get_today_movie_list():
     
     
     return df_today_movies
-
-# print(get_today_movie_list())

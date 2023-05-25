@@ -1,6 +1,7 @@
 <template>
-    <div>
-      <h1>Search list</h1>
+    <div class="background">
+        <br><br>
+      <h1 style="color: white;">Search list</h1>
       <hr>
       <!-- adult, backdrop_path, genre_ids, id, original_language,...  -->
       <ul class="scroll-container">
@@ -125,7 +126,12 @@
     height: 380px;
     margin: 50px;
     border-radius: 20px;
-    background-color: lightgray;
+    background-color: rgb(241, 240, 240);
   }
+.background {
+  height: 200vh;
+  width: 100vw;
+  background-color: #141414
+}
   </style>
   

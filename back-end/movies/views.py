@@ -151,6 +151,7 @@ def today_movie_list(request):
     ymd = date.today()
     today_ymd = datetime.strftime(ymd, '%Y-%m-%d')
     days, is_created = TodayMovieCreated.objects.get_or_create()
+    print(days)
     if is_created:
         delete_time = TodayMovieCreated.objects.all()
         for x in delete_time:
@@ -160,7 +161,15 @@ def today_movie_list(request):
         get_today_movie_list()
         today_json_to_db()
     else:
-        if today_ymd != str(days.today)[:10]:
+        if not TodayMovie.objects.all():
+            delete_yesterday()
+            delete_time = TodayMovieCreated.objects.all()
+            for x in delete_time:
+                x.delete()
+            days, is_created = TodayMovieCreated.objects.get_or_create()
+            get_today_movie_list()
+            today_json_to_db()
+        elif today_ymd != str(days.today)[:10]:
             delete_yesterday()
             delete_time = TodayMovieCreated.objects.all()
             for x in delete_time:
@@ -314,7 +323,7 @@ def comment_create(request, movie_pk):
         serializer.save(user = user, movie = movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    
+
 @api_view(['GET', 'POST'])
 def predict_movie(request):
     actors = request.data['actors']
@@ -327,6 +336,7 @@ def predict_movie(request):
     exchange_rate_url = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={}&searchdate={}&data=AP01'.format(exchange_key, today)
     exchange_res = requests.get(exchange_rate_url).text
     exchange_data = json.loads(exchange_res)
+    exchange = "1,350"
     for find_data in exchange_data:
         if find_data['cur_unit'] == 'USD':
             exchange = find_data['kftc_bkpr']

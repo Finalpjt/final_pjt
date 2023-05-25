@@ -3,13 +3,14 @@
   <div class="background">
   <div class="position-absolute top-50 start-50 translate-middle">
     <img src = "@/assets/logo.png" class="img-fluid" />
-    <div class="text-light" v-if="this.isLogin">
-      {{this.$store.state.username}} 님이 로그인중입니다.
+    <div class="text-light" >
+      <h1 v-if="isLogin"> {{this.$store.state.username}} 님이 로그인중입니다. </h1>
       <br>
       <!-- <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
       <button @click="search()">search</button> -->
     </div>
     <div class="" v-if="!this.isLogin">
+
       <main class="form-signin w-100 mx-auto">
 
           <h1 class="h3 mb-3 fw-normal"></h1>
@@ -25,7 +26,6 @@
           <button @click="login()" class="w-100 btn btn-lg btn-dark">Sign in</button>
           </div>
           <!-- //text-muted -->
-    
           <p class="mt-5 mb-3  text-light ">회원이 아니신가요?
             <router-link to="/signup">
               지금 가입하세요
@@ -34,7 +34,7 @@
           
 
       </main>
-    </div>
+      </div>
       <!-- <label for="username">사용자명 : </label>
       <input @keyup.enter="Cursor_password" ref="cursor" type="text" id="username" v-model="username"><br>
 
@@ -60,8 +60,7 @@ export default {
   },
   data() {
     return {
-      username: null,
-      // user_name: this.$store.state.username,
+      username: this.$store.state.username,
       password: null,
       searchkey: null,
     }
@@ -75,7 +74,9 @@ export default {
       return this.$store.getters.isLogin // 로그인 여부
     }
   },
-  
+  mounted(){
+    this.getUser()
+  },
   methods: {
     logout () {
       this.$store.dispatch('/logout')
@@ -114,7 +115,11 @@ export default {
     // },
     Cursor_password() {
       this.$refs.cursor_password.focus()
-    }
+    },
+    getUser() {
+      this.$store.dispatch('getUser')
+      
+    },
   }
 }
 </script>
@@ -123,7 +128,7 @@ export default {
 .background {
   height: 100vh;
   width: 100vw;
-  background-color: #000000
+  background-color: #141414
 }
 
 .otherColor {

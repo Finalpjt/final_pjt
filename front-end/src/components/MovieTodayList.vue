@@ -1,7 +1,7 @@
 <template>
   <div class="movie-list">
     <br><br>
-    <h3>Today Movie List</h3>
+    <h3 class="text-light">Today Movie</h3>
     <br><br>
     <div class="row row-cols-1 row-cols-md-5 g-4">
     <MovieTodayListItem 

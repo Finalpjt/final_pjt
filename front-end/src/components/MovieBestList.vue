@@ -1,6 +1,7 @@
 <template>
   <div class="">
-    <h3>Best Movie List</h3>
+    <br><br>
+    <h3 class="text-light">Best Movie</h3>
 
 		<br><br>
 		<div class="row row-cols-1 row-cols-md-5 g-4">
@@ -12,14 +13,14 @@
 			<div class="col">
         <div class="card h-100">
             <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`" class="card-img-top" alt="" srcset="">
-            <div class="card-body h-100">
+            <!-- <div class="card-body h-100">
                 <h5 class="card-title">
                     {{ movie.title }}
                 </h5>
-                <!-- <p class="card-text">
-                    {{ movie.overview }} -->
-                <!-- </p> -->
-            </div>
+                <p class="card-text">
+                    {{ movie.overview }}
+                </p>
+            </div> -->
         </div>
         </div>
       </router-link>

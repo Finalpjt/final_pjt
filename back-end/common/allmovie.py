@@ -7,13 +7,8 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import urllib.request
 from io import BytesIO
-from django.conf import settings
-    
-def f_my_api_key():
-    my_api_key = getattr(settings, 'TMDB_SECRET_KEY', 'TMDB_SECRET_KEY')
-    return my_api_key
 
-my_api_key = f_my_api_key()
+my_api_key = "6a5ece7778e61cb35c55c953b8743b0d"
 
 movies, english_movies = [], []
 for idx in range(1, 501):

@@ -50,17 +50,32 @@ export default new Vuex.Store({
     //   router.push({name : 'MainView'}) // store/index.js $router 접근 불가 -> import를 해야함
       // location.reload(true)
     },
-    LOG_OUT(state) {
-      state.user = null
-      state.username = null
-      state.email = null
-      // state.nickname = null
-    //   state.genre = null
-      state.token = null
+    // LOG_OUT(state) {
+    //   state.user = null
+    //   state.username = null
+    //   state.email = null
+    //   // state.nickname = null
+    // //   state.genre = null
+    //   state.token = null
       
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
-      location.reload(true)
-    },
+    //   location.reload(true)
+    // },
+    LOG_OUT(state) {
+        state.user = null
+        state.username = null
+        state.email = null
+        // state.nickname = null
+        state.token = null
+        
+        if(router.currentRoute.name=='HomeView'){
+          router.go(router.currentRoute)
+        }else{
+          router.push({name: 'HomeView'})
+        }
+        // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
+        // location.reload(true)
+      },
     SEARCH(state, movies) {
         state.search_movies = movies
         console.log(router.currentRoute.name)

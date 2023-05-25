@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1> {{ username }} 님의 Profile</h1>
+  <div class="background">
+    <h1 style="color: white;"> {{ username }} 님의 Profile</h1>
     <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
     <p style="font-weight: bolder; margin-bottom: 0px;">
         my email
@@ -19,7 +19,7 @@
     </div>
     <br>
     <!-- 사용자 닉네임 : {{ nickname }} -->
-    <router-link to="/PasswordChangeView">
+    <router-link to="/profileChange">
     <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
     비밀번호 변경
     </div>
@@ -121,3 +121,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.background {
+  height: 200vh;
+  width: 100vw;
+  background-color: #141414
+}
+</style>

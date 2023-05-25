@@ -63,7 +63,7 @@
             <img class="p-2" :src="`https://image.tmdb.org/t/p/w138_and_h175_face/${actor.profile_path}`" style="border-radius: 20%;">
             <div class="card-body" style="margin: 0px; padding: 0px;">
             <span class="card-title">
-            <button type="button" class="btn btn-outline-dark" style="margin-top: 10px; margin-bottom: 20px; color: black;" @click="pickActor(actor)">{{ actor.name }}</button>
+            <button type="button" class="btn btn-outline-white" style="margin-top: 10px; margin-bottom: 20px; color: black;" @click="pickActor(actor)">{{ actor.name }}</button>
             </span>
         </div>
         </div>
@@ -258,6 +258,6 @@ export default {
   width: 200px;
   height: 250px;
   margin: 0px;
-  background-color: lightgray;
+  background-color: rgb(241, 240, 240);
 }
 </style>
