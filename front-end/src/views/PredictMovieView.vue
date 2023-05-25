@@ -9,6 +9,8 @@
     </div>
     </div>
     <br>
+    <img src = "@/assets/money.png" class="img-fluid" />
+    <br>
     <input ref="cursorpredict" type="text" v-model="actor_search" @keyup.enter="actorSearch()" value="search">
     &nbsp;
     <button type="button" class="btn btn-outline-secondary" @click="actorSearch()">actor_search</button>

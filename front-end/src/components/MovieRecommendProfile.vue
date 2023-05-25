@@ -1,10 +1,9 @@
 <template>
 	<div>
-    <h1>MovieRecommend</h1>
-    <button @click="recommendMovies()">영화 추천 받을래?</button>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <!-- {{like_movies}} -->
-    <ul
+    <h1>추천 영화</h1>
+    <button type="button" class="btn btn-primary" @click="recommendMovies()">눌러봐</button>
+    <carousel :per-page="5" :paginationEnabled="true">
+    <slide
     v-for="(recommend_movie, idx) in recommend_movies" :key="idx"
     >
 
@@ -14,25 +13,28 @@
           name: 'DetailView',
           params: {id: recommend_movie.movie_id }}">
           <div class="card h-100">
-          <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${recommend_movie.poster_path}`" alt="" srcset="">
-          
+          <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${recommend_movie.poster_path}`" class="mx-5 w-75 rounded">
           </div>
         </router-link>
       
     </div>
-    </ul>
-    </div>
+    </slide>
+    </carousel>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import router from '../router'
+import { Carousel, Slide } from 'vue-carousel';
 
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'MovieRecommendProfile',
+  components: {
+    Carousel,
+    Slide,
+  },
   props: {
     like_movies: Array,
   },

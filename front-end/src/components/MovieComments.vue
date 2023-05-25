@@ -15,9 +15,12 @@
         <div v-for="comment in comments"
         :key="comment.id" :comment="comment"
         >
-        <p> {{ comment.content }}
-          <button v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">삭제</button>
-        </p>
+        <div>
+        <li> 
+            {{ comment.content }}
+          <button type="button" class="btn btn-primary" v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">삭제</button>
+        </li>
+        </div>
     </div>
   </div>
   </div>

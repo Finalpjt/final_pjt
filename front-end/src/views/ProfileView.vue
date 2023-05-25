@@ -1,14 +1,25 @@
 <template>
   <div>
-    <h1>Profile</h1>
-    사용자명 : {{ username }}
-    <br>
-    사용자 이메일 : {{ email }}
+    <h1> {{ username }} 님의 Profile</h1>
+    <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
+    <p style="font-weight: bolder; margin-bottom: 0px;">
+        my email
+    </p>
+    <hr>
+    <p style="margin-top: 0px; margin-bottom: 0px;">
+        {{ email }}
+    </p>
+    </div>
     <br>
     <!-- 사용자 닉네임 : {{ nickname }} -->
-    <router-link to="/PasswordChangeView">changepassword</router-link>
-    <div class="row row-cols-1 row-cols-md-5 g-4">
-    <div
+    <router-link to="/PasswordChangeView">
+    <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
+    changepassword
+    </div>
+    <br>
+    </router-link>
+    <carousel :per-page="5" :paginationEnabled="true">
+    <slide
     v-for="(like_movie, idx) in like_movies" :key="idx"
     >
     <!-- <p>2번째</p> -->
@@ -18,30 +29,33 @@
           name: 'DetailView',
           params: {id: like_movie.movie_id }}">
           <div class="card h-100">
-          <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${like_movie?.poster_path}`" alt="" srcset="">
-          <!-- <p>아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ</p> -->
+          <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${like_movie?.poster_path}`" class="mx-5 w-75 rounded">
           </div>
         </router-link>
-    
     </div>
-    </div>
+    </slide>
+    </carousel>
+    <br>
     <ul v-if="like_movies!==null">
     <MovieRecommendProfile v-bind:like_movies="like_movies"/>
     </ul>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import MovieRecommendProfile from '@/components/MovieRecommendProfile.vue'
+import { Carousel, Slide } from 'vue-carousel';
+
 const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'ProfileView',
 
   components: {
-    MovieRecommendProfile
+    MovieRecommendProfile,
+    Carousel,
+    Slide,
   },
 
   data() {

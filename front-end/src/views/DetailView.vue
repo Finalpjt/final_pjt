@@ -1,6 +1,8 @@
 <template>
   <div class="my-component d-flex flex-column mb-3" :style="`background-image: url(${movie?.backdrop_path})`">
-    <h1 style="margin-top: 20px;">{{ movie?.eng_title }}</h1>
+    <h1 style="margin: auto; width: 40%; background-color:white; color: black; padding:20px; border-radius:20px;">
+        {{ movie?.eng_title }}
+    </h1>
     <div class="d-flex" style="padding: 40px"> 
         <!-- 1번째 틀 -->
     <div style="margin-top: 50px; width: 50%">
@@ -86,6 +88,7 @@
     <div>
     <MovieComments/>
     </div>
+    <br><br>
     <div>
     <ul v-if="movie !== null">
         <MovieRecommend v-bind:movie="movie"/>

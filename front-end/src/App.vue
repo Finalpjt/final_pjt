@@ -1,33 +1,47 @@
 <template>
   <div id="app">
-    <router-link to="/">
-    Home
-    </router-link>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+        <a class="navbar-brand" href="#"><img height="32" src = "@/assets/logo.png" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarmenu">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+
+          <li v-if="isLogin" class="nav-item">
+            <router-link class="nav-link" to="/profile">profile</router-link>
+          </li>
+
+          <li v-if="isLogin" class="nav-item">
+            <router-link class="nav-link" to="/main">main page</router-link>
+          </li>
+          
+          <li v-if="isLogin" class="nav-item">
+            <router-link class="nav-link" to="/predict">predict revenue</router-link>
+          </li>
+          
+        </ul>
+          <div v-if="isLogin" class="nav-item">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="searchkey" @keyup.enter="search()">
+          </div>
+          <div v-if="isLogin" class="nav-item d-none d-lg-block">
+            <button class="btn btn-outline-light" v-if="isLogin" @click="logout" type="button">logout</button>
+          </div>
+
+        </div>
+      </div>
     
-    <span v-if="isLogin">
-    |  
-    <router-link to="/profile">
-    profile
-    </router-link>
-    |
-    <router-link to="/predict">
-    predict revenue
-    </router-link>
-    |
-    <router-link to="/main">
-    main page
-    </router-link>
-    |
-    <router-link v-if="!isLogin" to="/signup">
-    Sign Up
-    </router-link>
-
-    <input ref="cursor" type="text" v-model="searchkey" @keyup.enter="search()" value="search">
-    <button @click="search()">search</button>
-
-    </span>
-
-    <button v-if="isLogin" @click="logout">logout</button>
+      
+      
+      
+    </nav>
     <router-view />
 
   </div>
