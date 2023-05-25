@@ -24,6 +24,7 @@ export default new Vuex.Store({
     username: null,
     email: null,
     nickname: null,
+    // genre: null,
   },
   getters: {
     isLogin(state) {
@@ -54,18 +55,29 @@ export default new Vuex.Store({
       state.username = null
       state.email = null
       // state.nickname = null
+    //   state.genre = null
       state.token = null
       
       // router.push({name : 'HomeView'}) // store/index.js $router 접근 불가 -> import를 해야함
       location.reload(true)
     },
     SEARCH(state, movies) {
-      state.search_movies = movies
-      // router.go(router.currentRoute)
-      router.push({name: 'SearchView'})
-      // location.reload(true)
-       // 현재 위치 새로고침
-    }
+        state.search_movies = movies
+        console.log(router.currentRoute.name)
+        // // router.go(router.currentRoute)
+        if(router.currentRoute.name=='SearchView'){
+          router.go(router.currentRoute)
+        }else{
+          router.push({name: 'SearchView'})
+        }
+    },
+    // SEARCH(state, movies) {
+    //   state.search_movies = movies
+    //   // router.go(router.currentRoute)
+    //   router.push({name: 'SearchView'})
+    //   // location.reload(true)
+    //    // 현재 위치 새로고침
+    // }
   },
 
   actions: {
@@ -104,7 +116,7 @@ export default new Vuex.Store({
       const password1 = payload.password1
       const password2 = payload.password2
       const email = payload.email
-      console.log(payload)
+    //   const genre = payload.genre
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
@@ -113,7 +125,7 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
-          console.log(res)
+        //   console.log(res)
           this.state.username = res.data.username
           context.commit('SIGNUP_TOKEN', res.data.key)
         })
@@ -135,7 +147,7 @@ export default new Vuex.Store({
         }
         })
         .then((res) => {
-          console.log(res)
+        //   console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
         })
         .catch((err) => {
@@ -143,7 +155,7 @@ export default new Vuex.Store({
       })
     },
     login(context, payload) {
-      console.log(payload);
+    //   console.log(payload);
       const username = payload.username
       const password = payload.password
       axios({
@@ -154,7 +166,7 @@ export default new Vuex.Store({
         } 
       })
         .then((res) => {
-        console.log(res.data.key)
+        // console.log(res.data.key)
         this.state.username = res.data.username
         context.commit('SAVE_TOKEN', res.data.key)
         })

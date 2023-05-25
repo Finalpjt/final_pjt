@@ -1,8 +1,6 @@
 <template>
 	<div>
-    <!-- <h1>PMROA</h1> -->
     <br>
-    <!-- <h3 style="font-weight: bolder; background-color:black; color:white; height: 50px; width: 46%; margin: auto; ">Predict Movie Revenue of Actors</h3> -->
     <div class="container">
     <div class="box">
         <h3 style="margin-top: 10px;">Predict Movie Revenue of Actors</h3>
@@ -26,7 +24,7 @@
     </span>
     <br>
     <ul v-if="result">
-    <p> 결과 : {{ result }} (달러) </p>
+    <p> 결과 : {{ result }} (원) </p>
     <button type="button" class="btn btn-outline-primary" style="" @click="reset_result"> 
     reset
     </button>

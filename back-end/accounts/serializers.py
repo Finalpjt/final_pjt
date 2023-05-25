@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
     like_movies = AllMovieListSerializer(many = True, read_only=True, source='like_users')
     class Meta:
         model = get_user_model()
-        fields = ('like_movies', 'username', 'nickname', 'email', 'profile_img', 'genres')
+        fields = ('like_movies', 'username', 'nickname', 'email', 'profile_img')
         # exclude = ['username', 'password', 'followings']
 
 class UserNicknameSerializer(serializers.ModelSerializer):

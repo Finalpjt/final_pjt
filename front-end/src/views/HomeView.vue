@@ -1,15 +1,15 @@
 
 <template>
-  <div class="background" :class="{ otherColor: isSignIn }">
+  <div class="background">
   <div class="position-absolute top-50 start-50 translate-middle">
     <img src = "@/assets/logo.png" class="img-fluid" />
     <div class="text-light" v-if="this.isLogin">
-      로그인중입니다.{{this.$store.state.username}}
+      {{this.$store.state.username}} 님이 로그인중입니다.
       <br>
       <!-- <input type="text" v-model="searchkey" @keyup.enter="search()" value="search">
       <button @click="search()">search</button> -->
     </div>
-    <!-- <div class="" v-if="!this.isLogin"> -->
+    <div class="" v-if="!this.isLogin">
       <main class="form-signin w-100 mx-auto">
 
           <h1 class="h3 mb-3 fw-normal"></h1>
@@ -25,6 +25,7 @@
           <button @click="login()" class="w-100 btn btn-lg btn-dark">Sign in</button>
           </div>
           <!-- //text-muted -->
+    
           <p class="mt-5 mb-3  text-light ">회원이 아니신가요?
             <router-link to="/signup">
               지금 가입하세요
@@ -33,6 +34,7 @@
           
 
       </main>
+    </div>
       <!-- <label for="username">사용자명 : </label>
       <input @keyup.enter="Cursor_password" ref="cursor" type="text" id="username" v-model="username"><br>
 

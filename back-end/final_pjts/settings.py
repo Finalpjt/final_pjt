@@ -37,6 +37,8 @@ def get_secret(setting):
 
 
 SECRET_KEY = get_secret("SECRET_KEY")
+EXCHANGE_SECRET_KEY = get_secret("EXCHANGE_SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

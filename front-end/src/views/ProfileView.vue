@@ -11,10 +11,17 @@
     </p>
     </div>
     <br>
+    <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
+        <p style="font-weight: bolder;">
+            내가 좋아하는 장르
+        </p>
+        {{ genre }}
+    </div>
+    <br>
     <!-- 사용자 닉네임 : {{ nickname }} -->
     <router-link to="/PasswordChangeView">
     <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
-    changepassword
+    비밀번호 변경
     </div>
     <br>
     </router-link>
@@ -62,7 +69,8 @@ export default {
     return {
       user: null,   
       username: null,
-      email: null,    
+      email: null,
+      genre: null,
       like_movies: [],
     }
   },
@@ -81,7 +89,7 @@ export default {
         }
       })
       .then((res) => {
-        // console.log(res.data)
+        console.log(res.data)
         this.user = res.data
         this.username = res.data.username
         this.email = res.data.email
@@ -94,11 +102,12 @@ export default {
           }
         })
           .then((res) => {
-            // console.log(res.data)
-            // console.log('checkcheckcheckcheckcheckcheck')
+            console.log(res.data)
+            console.log('checkcheckcheckcheckcheckcheck')
         //   console.log(res.data.like_movies)
             // console.log('checkcheckcheckcheckcheckcheck')
           this.like_movies = res.data.like_movies
+          this.genre = res.data.genres
           // this.nickname = res.data.nickname
           })
           .catch((err) => {
