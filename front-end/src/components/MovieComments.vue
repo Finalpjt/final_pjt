@@ -1,21 +1,22 @@
 <template>
-  <div class="">
-    <h3>Comments Create</h3>
-      {{ user }}<br>
+  <div style="margin: auto; width: 80%; background-color:white; color: black; padding:20px; border-radius:20px;">
+    <h3 style="margin-top: 20px; margin-bottom: 0px;">영화에 대하여 할 말이 있다면?</h3>
+      <!-- {{ user }}<br>
       {{ username }}<br>
-      {{ email }}<br>
-      <br><br><br><br>
-      <label for="comment">댓글 : </label>
+      {{ email }}<br> -->
+      <br>
+      <label for="comment"></label>
+      <p>댓글을 입력해주세요</p>
       <input @keyup.enter="commentCreate()" ref="cursor_comment" type="text" id="comment" v-model="comment_create">
+      &nbsp;
       <input @click="commentCreate()" type="submit" value="확인">
       
     <div class="">
-      <h3>Comments</h3>
         <div v-for="comment in comments"
         :key="comment.id" :comment="comment"
         >
-        <p> user_id : {{ comment.user }} content : {{ comment.content }}
-          <button v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">X</button>
+        <p> {{ comment.content }}
+          <button v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">삭제</button>
         </p>
     </div>
   </div>

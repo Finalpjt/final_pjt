@@ -1,11 +1,13 @@
 <template>
 	<div>
     <h1>MovieRecommend</h1>
+    <button @click="recommendMovies()">영화 추천 받을래?</button>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- {{like_movies}} -->
-    <div
-    v-for="recommend_movie in recommend_movies" :key="recommend_movie.id" :movie="movie"
+    <ul
+    v-for="(recommend_movie, idx) in recommend_movies" :key="idx"
     >
+
     <div class="card" @click="reload()">
       
         <router-link :to="{
@@ -18,7 +20,7 @@
         </router-link>
       
     </div>
-    </div>
+    </ul>
     </div>
   </div>
 </template>
@@ -41,21 +43,20 @@ export default {
     }
   },
   computed: {
-    like_movies_computed() {
-       return this.like_movies
-    }
-  },
-  created(){
-    this.recommendMovies()
-  },
+    // like_movies_computed() {
+    //    return this.like_movies
+    },
+//   created(){
+//     this.recommendMovies()
+//   },
   methods: {
     recommendMovies(){
-      console.log(this.like_movies)
-      console.log('일단 like_movie확인')
+    //   console.log(this.like_movies)
+    //   console.log('일단 like_movie확인')
       const movie_title = this.like_movies
       console.log('---------------------')
       console.log(movie_title)
-
+      console.log('---------------------')
       axios({
         method: 'post',
         url: `${API_URL}/api/v1/movies/recommends/profile/`,
@@ -64,17 +65,15 @@ export default {
         }
       })
       .then((res) => {
-        console.log(res)
-        console.log(res.data)
+        // console.log(res)
+        // console.log(res.data)
         this.recommend_movies = res.data
         console.log(this.recommend_movies)
 
       })
       .catch((err) => {
         console.log(err)
-
       })
-
     },
     reload() {
       location.reload(true)

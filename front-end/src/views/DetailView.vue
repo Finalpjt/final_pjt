@@ -1,41 +1,98 @@
 <template>
-  <div>
-    <h1>Detail</h1>
-    <img style="height: 600px" :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${ movie?.poster_path }`" alt="" srcset="">
-    <p>글 번호 : {{ movie?.movie_id }}</p>
-    <p>제목 : {{ movie?.eng_title }}</p>
-    <p>한국어 제목 : {{ movie?.title }}</p>
-    <p>장르 :
-    <ul v-for="(gen, ids) in movie?.genres" :key="ids">
-        {{ gen.genre_ids }}
-    </ul>
-    </p>
-    <p>청소년 관람 불가 : {{ movie?.adult }}</p>
-    <p>영화 평점 : {{ movie?.vote_average }} </p>
-    <p>영화 총점 : {{ movie?.popularity }} </p>
-    <p>개봉일 : {{ movie?.release_date }} </p>
-    <p>영화 줄거리 : {{ movie?.overview }}</p>
-    <br><br>
-    <p>관련 공식 영상</p>
-    <ul v-for="(vid, idx) in movie?.videos" :key="idx">
-        <a :href="vid.video">video {{ idx + 1 }}</a>
-    </ul>
-    <p>좋아요를 누른 사람 : {{ movie?.like_users }} </p>
-    <button @click="getlikes()">ㅈㅇㅇ</button>
-    <li v-if="movie?.like_users.indexOf(user.pk) !== -1">
-        <p>내가 좋아요를 누른 영화다 임마!</p>
+  <div class="my-component d-flex flex-column mb-3" :style="`background-image: url(${movie?.backdrop_path})`">
+    <h1 style="margin-top: 20px;">{{ movie?.eng_title }}</h1>
+    <div class="d-flex" style="padding: 40px"> 
+        <!-- 1번째 틀 -->
+    <div style="margin-top: 50px; width: 50%">
+    <!-- <img style="height: 600px" :src="`${ movie?.backdrop_path }`" alt="" srcset=""> -->
+    <img style="height: 1000px; border-radius:20px;" :src="`${ movie?.poster_path }`" alt="" srcset="">
+    </div>
+    <div style="margin-top: 50px; width: 50%; background-color:white; color: black; padding:20px; border-radius:20px;">
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p style="font-weight: bolder">한국어 제목 : {{ movie?.title }}</p>
+    </div>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p>어떤 장르인가요?</p>
+    <div>
+        <span style="margin: auto" v-for="(gen, ids) in movie?.genres" :key="ids">
+            <button type="button" class="btn btn-primary" disabled>
+                {{ gen.genre_ids }}
+            </button>
+            &nbsp;
+        </span>
+    </div>
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p>청소년은?</p>
+    <div v-if="movie?.adult">
+        못봐요
+    </div>
+    <div v-else>
+        볼 수 있어요
+    </div>
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p> 이 영화를 본 사람들의 평가는? </p>
+        {{ movie?.vote_average }}
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p> 이 영화를 본 전문가들의 평가는? </p>
+        {{ movie?.popularity }}
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <p> 언제 개봉했나요? </p>
+        {{ movie?.release_date }}
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <button type="button" class="btn btn-primary" disabled> 줄거리 </button>
+    <br>
+    <div type="button" class="btn" disabled>
+    {{ movie?.overview }}
+    </div>
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+        공식 영상 보러가기
+        <br><br>
+        <span style="margin: auto" v-for="(vid, idx) in movie?.videos" :key="idx">
+            <!-- {{vid.video}} -->
+            <button type="button" class="btn btn-primary" :onclick="`window.open('${vid.video}')`" style="color: white;">
+                관련 공식 영상 {{ idx + 1 }}
+            </button>
+            &nbsp;
+        </span>
+    </div>
+    <br>
+    <div style="background-color: lightblue; color: black; border-radius:20px;">
+    <li style="list-style: none;" v-if="movie?.like_users.indexOf(user.pk) !== -1">
+        <p>{{movie.user}} 님이 좋아하는 영화입니다.</p>
+        <button type="button" class="btn btn-outline-secondary" @click="getlikes()">좋아요 취소</button>
     </li>
-    <li v-else>
-        <p>내가 좋아요를 누르지 않은 영화다 자시가!</p>
+    <li v-else style="list-style-type: none;"> 
+        <p>영화에 관심이 있다면 아래 버튼을 눌러보세요</p>
+        <button type="button" class="btn btn-outline-secondary" @click="getlikes()">좋아요</button>
     </li>
+    </div>
+    </div>
     <!-- </button> -->
     <!-- <br><br> -->
     <br>
+    </div>
+    <div>
+    <MovieComments/>
+    </div>
+    <div>
     <ul v-if="movie !== null">
         <MovieRecommend v-bind:movie="movie"/>
     </ul>
+    </div>
     <br>
-    <MovieComments/>
+    
     <!-- <MovieCommentsList/> -->
   </div>
 </template>
@@ -111,3 +168,20 @@ export default {
   }
 }
 </script>
+
+<style>
+/* .my-component {
+  background-image: url();
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+.my-component {
+  background-repeat: no-repeat;
+  background-size: 150vw;
+}
+/* .no_dot {
+
+	list-style-type: none;
+
+	} */
+</style>

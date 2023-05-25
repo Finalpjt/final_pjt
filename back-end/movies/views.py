@@ -20,6 +20,7 @@ from .models import MovieDetail, ActorList
 
 from common.todaymovie import get_today_movie_list
 from common.detail import movie_detail_url
+from common.profilecosine import profileprocess
 from datetime import date, datetime, timedelta
 import json
 import pandas as pd
@@ -392,6 +393,7 @@ def predict_movie(request):
 def recommend_movie(request):
     movie = request.data['movie']
     recommend_list = []
+    # print(movie)
     df = preprocess(movie)
     for idx in range(len(df)):
         movies = AllMovie.objects.filter(title=df[idx])
@@ -416,12 +418,13 @@ def recommend_movie(request):
 def profile_recommend_movie(request):
     movie = request.data['movie']
     recommend_list = []
-    # print('------------------------------')
+    check = []
+    for m in movie:
+        check.append(m['title'])
+    print(check)
     # print(movie)
-    # print(request.data)
-    # print('------------------------------')
-    return Response(movie)
-    df = preprocess(movie)
+    df = profileprocess(check)
+    # print(df)
     for idx in range(len(df)):
         movies = AllMovie.objects.filter(title=df[idx])
         # print(movies[0])

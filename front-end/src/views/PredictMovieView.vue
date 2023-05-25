@@ -1,26 +1,78 @@
 <template>
 	<div>
-    <h1>PMROA</h1>
-		<h3>Predict Movie Revenue of Actors</h3>
-
-    <p> 결과 : {{ result }} (달러) </p>
-
-    <h5>Picked Actors</h5>
-    <div v-for="pick_actor in pick_actors" :key="pick_actor.id.id" :pick_actor="pick_actor">{{pick_actor.name}}</div>
-
-    <!-- <button @click="resetActor">초기화</button> -->
-
-    <button @click="movieRevenue">확인</button>
+    <!-- <h1>PMROA</h1> -->
+    <br>
+    <!-- <h3 style="font-weight: bolder; background-color:black; color:white; height: 50px; width: 46%; margin: auto; ">Predict Movie Revenue of Actors</h3> -->
+    <div class="container">
+    <div class="box">
+        <h3 style="margin-top: 10px;">Predict Movie Revenue of Actors</h3>
+    </div>
+    </div>
     <br>
     <input ref="cursorpredict" type="text" v-model="actor_search" @keyup.enter="actorSearch()" value="search">
-    <button @click="actorSearch()">actor_search</button>
-    
-    <hr>
-    <div v-for="actor in AllActors" :key="actor.id" :actor="actor"
-    ><p><img :src="`https://image.tmdb.org/t/p/w138_and_h175_face/${actor.profile_path}`" alt="" srcset=""></p>
-		<button @click="pickActor(actor)">{{ actor.name }}</button>
+    &nbsp;
+    <button type="button" class="btn btn-outline-secondary" @click="actorSearch()">actor_search</button>
+    <br><br>
+    <ul>
+    <h5>Picked Actors</h5>
+    </ul>
+    <span v-for="pick_actor in pick_actors" :key="pick_actor.id.id">
+        
+        <button type="button" class="btn btn-outline-secondary">
+                {{pick_actor.name}}
+        </button>
+    </span>
+    <br>
+    <ul v-if="result">
+    <p> 결과 : {{ result }} (달러) </p>
+    <button type="button" class="btn btn-outline-primary" style="" @click="reset_result"> 
+    reset
+    </button>
+    </ul>
+    <br>
+    <ul>
+    <button type="button" class="btn btn-outline-secondary" @click="movieRevenue">확인</button>
+    </ul>
+    <!-- <button @click="resetActor">초기화</button> -->
 
-		</div>
+    <br>
+    <br>
+    <hr style="margin: auto; width: 60%;">
+    <br>
+    <!-- <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+        </div>
+    </div>
+    </div> -->
+    <ul v-if="check" class="scroll-container">
+    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 10px;" @click="ale">배우</button>
+    <br><br>
+    <!-- <div data-bs-spy="scroll";> -->
+    <div id="new_container" class="row row-cols-1 row-cols-md-6 g-4">
+    <!-- <div class="hstack gap-3"> -->
+        <div v-for="actor in AllActors" :key="actor.id" :actor="actor" style="margin-bottom: 20px;">
+            <div class="col">
+            <div class="card" style="width: 200px;">
+            <div class="card-custom">
+            <img class="p-2" :src="`https://image.tmdb.org/t/p/w138_and_h175_face/${actor.profile_path}`" style="border-radius: 20%;">
+            <div class="card-body" style="margin: 0px; padding: 0px;">
+            <span class="card-title">
+            <button type="button" class="btn btn-outline-dark" style="margin-top: 10px; margin-bottom: 20px; color: black;" @click="pickActor(actor)">{{ actor.name }}</button>
+            </span>
+        </div>
+        </div>
+    <!-- </div> -->
+    </div>
+    </div>
+    </div>
+    </div>
+    </ul>
   </div>
 </template>
 
@@ -41,6 +93,7 @@ export default {
       result: null,
       actor_search: null,
       acto: null,
+      check: false,
     }
   },
   // created(){
@@ -50,6 +103,12 @@ export default {
   //   this.startCursor()
   // },
   methods: {
+    reset_result() {
+        return this.result = 0
+    },
+    ale(){
+        return alert('배우를 골라라')
+    },
     // getAllActors() {
 		// 	axios({
 		// 		method:'get',
@@ -121,6 +180,7 @@ export default {
 
     },
     actorSearch() {
+        this.check = true
       this.AllActors = []
       const query = this.actor_search
       // console.log(query)
@@ -159,3 +219,45 @@ export default {
 }
 
 </script>
+
+<style>
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100vh; */
+}
+
+.box {
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  height: 50px;
+  width: 60%;
+}
+.scroll_container {
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+#new_container {
+  height: 500px;
+  overflow: auto;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 20px;
+}
+::-webkit-scrollbar-thumb {
+  /* background: 스크롤바 막대 색상 black; */
+  border-radius: 10%;
+}
+.card-custom {
+  /* 원하는 카드 크기로 조정 */
+  width: 200px;
+  height: 250px;
+  margin: 0px;
+  background-color: lightgray;
+}
+</style>

@@ -3,7 +3,7 @@
     <h1>MovieRecommend</h1>
     <div class="row row-cols-1 row-cols-md-5 g-4">
     <div
-    v-for="(recommend_movie, idx) in recommend_movies" :key="idx" :movie="movie"
+    v-for="(recommend_movie, idx) in recommend_movies" :key="idx"
     >
     <div class="card" @click="reload()">
       
