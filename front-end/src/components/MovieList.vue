@@ -17,7 +17,7 @@
 			<button type="button" class="btn btn-dark" v-if="page==1" @click="result(page+2)"> {{ page+2 }} </button>
 			<button type="button" class="btn btn-dark" @click="unitup(page+10)"> &gt;&gt; </button>
 			<button type="button" class="btn btn-dark" @click="result(page=486)"> end </button>
-			<input class="form-control btn btn-dark" type="search" :placeholder="`현재페이지:   ${page}`" aria-label="Search" v-model="new_page" @keyup.enter="result(new_page)">
+			<input class="form-control btn btn-dark" type="search" :placeholder="`현재페이지:   ${page}`" aria-label="Search" v-model.number="new_page" @keyup.enter="result(new_page)">
 
 			<!-- <div class="btn-group" role="group">
 				<button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,7 +100,7 @@ export default {
 			this.pagination()
 		},
 		result(page) {
-			this.page=page
+			this.page = page
 			this.pagination()
 		},
 		pagination() {
