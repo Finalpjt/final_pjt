@@ -10,13 +10,13 @@
         {{ email }}
     </p>
     </div>
-    <br>
-    <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
+    <!-- <br> -->
+    <!-- <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
         <p style="font-weight: bolder;">
             내가 좋아하는 장르
         </p>
-        {{ genre }}
-    </div>
+        <p style="color: white">{{ genre }}</p>
+    </div> -->
     <br>
     <!-- 사용자 닉네임 : {{ nickname }} -->
     <router-link to="/profileChange">
@@ -25,6 +25,9 @@
     </div>
     <br>
     </router-link>
+    <div style="background-color: lightblue; margin:auto; width:50%; color: black; border-radius:20px;">
+        좋아요 누른 영화
+    </div>
     <carousel :per-page="5" :paginationEnabled="true">
     <slide
     v-for="(like_movie, idx) in like_movies" :key="idx"
@@ -70,7 +73,7 @@ export default {
       user: null,   
       username: null,
       email: null,
-      genre: null,
+      genre: 'Actions',
       like_movies: [],
     }
   },

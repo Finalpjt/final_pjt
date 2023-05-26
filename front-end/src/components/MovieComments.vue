@@ -15,11 +15,12 @@
         <div v-for="comment in comments"
         :key="comment.id" :comment="comment"
         >
+        <br>
         <div>
-        <li> 
-            {{ comment.content }}
-          <button type="button" class="btn btn-primary" v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">삭제</button>
-        </li>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="text-dark btn btn-outline-primary">{{ comment.content }}</button>
+                <button type="button" class="btn btn-outline-primary" v-if="comment.user === user.pk" @click="deleteComment(comment.comment_id)">삭제</button>
+            </div>
         </div>
     </div>
   </div>
@@ -110,6 +111,7 @@ export default {
           console.log(res)
           // this.$router.push(`${API_URL}/api/v1/movies/${ id }/comments/`)
           // location.reload(true)
+          this.comment_create = null
           this.getComments()
         })
         .catch((err) => {

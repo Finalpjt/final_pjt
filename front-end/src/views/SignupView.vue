@@ -44,7 +44,7 @@ export default {
       }
 
       this.$store.dispatch('signUp', payload)
-      this.$router.push('/profile')
+      this.$router.push('/')
 
     }
   }

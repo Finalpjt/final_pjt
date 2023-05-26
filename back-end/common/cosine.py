@@ -21,7 +21,7 @@ def preprocess(movie_name):
     # tfidf를 통하여 data 변환
     tfidf = TfidfVectorizer()
     tfidf_matrix = tfidf.fit_transform(df['overview'])
-
+    print(tfidf_matrix.shape)
     # cosine_similarity matrix 생성
     cosine_similar = cosine_similarity(tfidf_matrix, tfidf_matrix)
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="my-component d-flex flex-column mb-3" :style="`background-image: url(${movie?.backdrop_path})`">
+  <div class="backgroud my-component d-flex flex-column mb-3" :style="`background-image: url(${movie?.backdrop_path})`">
     <h1 style="margin: auto; width: 40%; background-color:white; color: black; padding:20px; border-radius:20px;">
         {{ movie?.eng_title }}
     </h1>
@@ -178,13 +178,13 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 } */
-.my-component {
-  background-repeat: no-repeat;
-  background-size: 150vw;
+.background {
+    height: 100vh;
+  width: 100vw;
+  background-color: #141414
 }
-/* .no_dot {
-
-	list-style-type: none;
-
-	} */
+.my-component {
+    background-repeat: no-repeat;
+    background-size: 150vw;
+}
 </style>
